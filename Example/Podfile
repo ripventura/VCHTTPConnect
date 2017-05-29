@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'VCHTTPConnect_Example' do
+  pod 'VCHTTPConnect', :path => '../'
+
+  target 'VCHTTPConnect_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
