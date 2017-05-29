@@ -1,0 +1,6 @@
+framework module VCHTTPConnect {
+  umbrella header "VCHTTPConnect-umbrella.h"
+
+  export *
+  module * { export * }
+}

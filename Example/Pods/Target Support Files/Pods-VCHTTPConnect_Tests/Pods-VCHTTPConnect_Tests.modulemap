@@ -1,0 +1,6 @@
+framework module Pods_VCHTTPConnect_Tests {
+  umbrella header "Pods-VCHTTPConnect_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

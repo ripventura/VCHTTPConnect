@@ -2,7 +2,8 @@ use_frameworks!
 
 target 'VCHTTPConnect_Example' do
   pod 'VCHTTPConnect', :path => '../'
-
+  pod 'SwiftHTTP', '~> 2.0.0'
+  
   target 'VCHTTPConnect_Tests' do
     inherit! :search_paths
 

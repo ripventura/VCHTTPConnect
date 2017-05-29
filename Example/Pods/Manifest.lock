@@ -1,0 +1,20 @@
+PODS:
+  - SwiftHTTP (2.0.2)
+  - VCHTTPConnect (0.1.0):
+    - SwiftHTTP (~> 2.0.0)
+
+DEPENDENCIES:
+  - SwiftHTTP (~> 2.0.0)
+  - VCHTTPConnect (from `../`)
+
+EXTERNAL SOURCES:
+  VCHTTPConnect:
+    :path: ../
+
+SPEC CHECKSUMS:
+  SwiftHTTP: faa1a5f7670568ffc9361898229dbe84a6088468
+  VCHTTPConnect: 2c12c37bf7d094035d9e6bd0c40f000e73628dfb
+
+PODFILE CHECKSUM: 3e796518c1f0b6d6aee52e5db914d703364f90d7
+
+COCOAPODS: 1.2.1
