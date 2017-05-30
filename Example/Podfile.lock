@@ -1,9 +1,12 @@
 PODS:
+  - ObjectMapper (2.2.2)
   - SwiftHTTP (2.0.2)
   - VCHTTPConnect (0.1.0):
+    - ObjectMapper (~> 2.2)
     - SwiftHTTP (~> 2.0.0)
 
 DEPENDENCIES:
+  - ObjectMapper (~> 2.2)
   - SwiftHTTP (~> 2.0.0)
   - VCHTTPConnect (from `../`)
 
@@ -12,9 +15,10 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
+  ObjectMapper: 9e385c2295bcc4e16eabbcfc85db801442bba545
   SwiftHTTP: faa1a5f7670568ffc9361898229dbe84a6088468
-  VCHTTPConnect: 2c12c37bf7d094035d9e6bd0c40f000e73628dfb
+  VCHTTPConnect: 16e3d62c5f9963833765b5d546e119d29d73b53a
 
-PODFILE CHECKSUM: 3e796518c1f0b6d6aee52e5db914d703364f90d7
+PODFILE CHECKSUM: cf82c0ab2806956ec253877ddc3db6eeb2ef25e0
 
 COCOAPODS: 1.2.1

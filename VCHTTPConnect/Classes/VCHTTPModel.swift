@@ -7,32 +7,29 @@
 //
 
 import UIKit
+import ObjectMapper
 
-open class HTTPModel: JSONModel {
+open class VCHTTPModel: Mappable {
 
-    //VCHTTPConnect connector used on HTTP Requests
+    /* This model Id */
+    public var modelId: Any?
+    
+    /* Connector used on HTTP Requests */
     public var connector: VCHTTPConnect?
     
-    public override init() {
-        super.init()
-        
-        self.initializeConnector()
-    }
-    public override init(jsonDict: [String : Any]) {
-        super.init(jsonDict: jsonDict)
-        
-        self.initializeConnector()
-    }
     
     //Connector should be initialized here. Override this method on each subclass.
     open func initializeConnector() -> Void {
         
     }
 
+    
+    // MARK: - Operations
+    
     //Creates an entity based on this model
-    public func create(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
+    open func create(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
         if let connector = self.connector {
-            connector.parameters = self.jsonDict()
+            connector.parameters = self.toJSON()
             connector.post(path: "", handler: completionHandler)
             
         } else {
@@ -40,9 +37,9 @@ open class HTTPModel: JSONModel {
         }
     }
     //Updates an entity based on this model
-    public func update(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
+    open func update(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
         if let connector = self.connector {
-            connector.parameters = self.jsonDict()
+            connector.parameters = self.toJSON()
             connector.put(path: "", handler: completionHandler)
             
         } else {
@@ -50,7 +47,7 @@ open class HTTPModel: JSONModel {
         }
     }
     //Removes an entity based on this model ID
-    public func remove(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
+    open func remove(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
         if let connector = self.connector {
             if let modelId = self.modelId {
                 
@@ -62,5 +59,16 @@ open class HTTPModel: JSONModel {
         } else {
             assert(true, "Connector not initialized!")
         }
+    }
+    
+    
+    // MARK: - ObjectMapper
+    required public init?(map: Map) {
+        self.initializeConnector()
+    }
+    
+    // Mappable
+    open func mapping(map: Map) {
+        self.modelId <- map["id"]
     }
 }

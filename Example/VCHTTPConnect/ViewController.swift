@@ -11,24 +11,14 @@ import VCHTTPConnect
 
 class ViewController: UIViewController {
     
-    var httpConnector = VCHTTPConnect(url: "https://jsonplaceholder.typicode.com")
+    var datastore: DemoDatastore = DemoDatastore()
     
     @IBOutlet weak var getButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var responseDataTextView: UITextView!
     @IBOutlet weak var mainActivityIndicator: UIActivityIndicatorView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     
     @IBAction func getButtonPressed(_ sender: Any) {
         self.updateInterface(loading: true)
@@ -51,30 +41,29 @@ class ViewController: UIViewController {
     }
     
     func startGETRequest() {
-        httpConnector.get(path: "/posts/1", handler: {success, response in
+        datastore.find(filter: [:], completionHandler: {response, models in
             self.statusLabel.text = String(format: "%d", response.statusCode!)
             
-            self.responseDataTextView.text = "Nothing to show here..."
+            var text: String = "Nothing to show here..."
             
-            if response.data != nil {
-                do {
-                    let jsonObject : Any = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments)
+            if let models = models {
+                text = ""
+                
+                for model in models {
+                    let demoModel: DemoModel = model as! DemoModel
                     
-                    self.responseDataTextView.text = (jsonObject as? [String : Any])?.description
-                }
-                catch {
+                    text = text + "\n\n Title: " + demoModel.title! + "\nBody: " + demoModel.body!
                 }
             }
-            
+            self.responseDataTextView.text = text
             self.updateInterface(loading: false)
         })
     }
     
     func startPOSTRequest() {
-        // POST body
-        httpConnector.parameters = ["title":"foo", "body":"bar", "userId":1];
+        let demoModel = DemoModel(JSON: [:])
         
-        httpConnector.post(path: "/posts", handler: {success, response in
+        demoModel?.create(completionHandler: {success, response in
             self.statusLabel.text = String(format: "%d", response.statusCode!)
             
             self.responseDataTextView.text = "Nothing to show here..."

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18C70CC31EDCCAFD003ACCB6 /* DemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C70CC21EDCCAFD003ACCB6 /* DemoModel.swift */; };
+		18C70CD01EDDDA58003ACCB6 /* DemoDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C70CCF1EDDDA58003ACCB6 /* DemoDatastore.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		18C70CC21EDCCAFD003ACCB6 /* DemoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoModel.swift; sourceTree = "<group>"; };
+		18C70CCF1EDDDA58003ACCB6 /* DemoDatastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoDatastore.swift; sourceTree = "<group>"; };
 		23D1032C7E827602049A0D5D /* VCHTTPConnect.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = VCHTTPConnect.podspec; path = ../VCHTTPConnect.podspec; sourceTree = "<group>"; };
 		3884651FCA079EB58AE4297D /* Pods-VCHTTPConnect_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VCHTTPConnect_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VCHTTPConnect_Tests/Pods-VCHTTPConnect_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* VCHTTPConnect_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VCHTTPConnect_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +108,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				18C70CCF1EDDDA58003ACCB6 /* DemoDatastore.swift */,
 				18C70CC21EDCCAFD003ACCB6 /* DemoModel.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
@@ -366,6 +369,7 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				18C70CC31EDCCAFD003ACCB6 /* DemoModel.swift in Sources */,
+				18C70CD01EDDDA58003ACCB6 /* DemoDatastore.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

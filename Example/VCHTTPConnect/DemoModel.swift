@@ -8,19 +8,17 @@
 
 import UIKit
 import VCHTTPConnect
+import ObjectMapper
 
-class DemoModel: HTTPModel {
+class DemoModel: VCHTTPModel {
     var title: String?
     var body: String?
     
-    //All property mapping should be done here. Override this method on each subclass.
-    override func mapModel(jsonDict: [String : Any]) -> Void {
-        
-        //propertyName = this object property name
-        //attribute = API attribute name (coming from the JSON)
-        self.mapProperty(propertyName: "modelId", toAttribute: "id")
-        self.mapProperty(propertyName: "title", toAttribute: "title")
-        self.mapProperty(propertyName: "body", toAttribute: "body")
+    // Mappable
+    override func mapping(map: Map) {
+        super.mapping(map: map)
+        self.title <- map["title"]
+        self.body <- map["body"]
     }
 
     //Connector should be initialized here. Override this method on each subclass.

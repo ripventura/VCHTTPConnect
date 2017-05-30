@@ -38,5 +38,6 @@ This is wrapper around the awesome SwiftHTTP library. The intention here is to b
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'SwiftHTTP', '~> 2.0.0'
+s.dependency 'SwiftHTTP', '~> 2.0.0'
+s.dependency 'ObjectMapper', '~> 2.2'
 end
