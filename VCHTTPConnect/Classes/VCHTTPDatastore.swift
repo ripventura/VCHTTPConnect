@@ -9,23 +9,21 @@
 import UIKit
 
 open class VCHTTPDatastore: NSObject {
+    public struct Config {
+        let name: String
+        let url: String
+        let header: [String:String]
+        
+        public init(name: String, url: String, header: [String:String]) {
+            self.name = name
+            self.url = url
+            self.header = header
+        }
+    }
     
     /* Connector used on HTTP Requests */
     public var connector: VCHTTPConnect?
-    
-    /* The name of the Datastore */
-    public var name: String?
-    /* The URL of the Datastore */
-    public var url: String?
-    
-    
-    /* Use this initalizer if you are not initializing to a custom datastore. */
-    public init(name: String, url: String) {
-        self.name = name
-        self.url = url
-        
-        super.init()
-    }
+
     
     /* Use this initalizer if you are initializing a custom datastore. */
     public override init() {
@@ -35,9 +33,11 @@ open class VCHTTPDatastore: NSObject {
     
     //Finds entity with the given filter
     open func find(filter: [String:Any], completionHandler: @escaping((VCHTTPConnect.HTTPResponse, [VCHTTPModel]?) -> Void)) -> Void {
-        self.connector = VCHTTPConnect(url: self.url != nil ? self.url! : self.datastoreURL())
+        let config = self.datastoreWithConfig()
+        self.connector = VCHTTPConnect(url: config.url)
         self.connector?.parameters = filter
-        self.connector?.get(path: "/" + (self.name != nil ? self.name! : self.datastoreName()), handler: {success, response in
+        self.connector?.headers = config.header
+        self.connector?.get(path: "/" + config.name, handler: {success, response in
             if success {
                 do {
                     let jsonObject: [[String:Any]]? = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [[String:Any]]
@@ -61,14 +61,9 @@ open class VCHTTPDatastore: NSObject {
         })
     }
     
-    
-    //Override this if you sub-class to a custom datastore.
-    open func datastoreName() -> String {
-        return ""
-    }
-    //Override this if you sub-class to a custom datastore.
-    open func datastoreURL() -> String {
-        return ""
+    //Returns the config used on this datastore
+    open func datastoreWithConfig() -> VCHTTPDatastore.Config {
+        return .init(name: "", url: "", header: [:])
     }
     //Override this if you need to return custom sub-classed models.
     open func modelFromDict(jsonDict: [String:Any]) -> VCHTTPModel {

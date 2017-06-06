@@ -11,14 +11,10 @@ import VCHTTPConnect
 
 class DemoDatastore: VCHTTPDatastore {
 
-    //Override this if you sub-class to a custom datastore.
-    open override func datastoreName() -> String {
-        return "posts"
+    open override func datastoreWithConfig() -> VCHTTPDatastore.Config {
+        return .init(name: "posts", url: "https://jsonplaceholder.typicode.com", header: [:])
     }
-    //Override this if you sub-class to a custom datastore.
-    open override func datastoreURL() -> String {
-        return "https://jsonplaceholder.typicode.com"
-    }
+    
     //Override this if you need to return custom sub-classed models.
     open override func modelFromDict(jsonDict: [String:Any]) -> VCHTTPModel {
         return DemoModel(JSON: jsonDict)!
