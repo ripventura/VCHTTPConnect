@@ -1,7 +1,7 @@
 PODS:
   - ObjectMapper (2.2.0)
   - SwiftHTTP (2.0.0)
-  - VCHTTPConnect (0.0.3):
+  - VCHTTPConnect (0.0.5):
     - ObjectMapper (= 2.2)
     - SwiftHTTP (= 2.0.0)
 
@@ -17,7 +17,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   ObjectMapper: 4060d739febae11ab0c6af8d786f98667c82e1bd
   SwiftHTTP: 55a6f10e9952819ff728a3d9d1fa52ba3d266dba
-  VCHTTPConnect: c12aaa53c0c20791924bf737eb4a9fc81748067a
+  VCHTTPConnect: e3cd7b596b737dfb48d949180833606eb6a4bfab
 
 PODFILE CHECKSUM: 178e52680fea0e14102b5265ffe89e10d67dde5a
 
