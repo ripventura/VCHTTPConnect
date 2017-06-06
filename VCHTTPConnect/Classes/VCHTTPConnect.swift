@@ -36,6 +36,11 @@ open class VCHTTPConnect {
     // Header used on the call
     public var headers : [String:String]
     
+    //How the parameters are attatched to the request. Default is methodDependent
+    //GET + DELETE: urlEncoded
+    //POST + PUT: json on body
+    public var parametersEncoding : URLEncoding.Destination = .methodDependent
+    
     
     public var request : Request?
     let sessionManager = Alamofire.SessionManager.default
