@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftHTTP
+import Alamofire
 
 open class VCHTTPConnect {
     
@@ -37,9 +37,8 @@ open class VCHTTPConnect {
     public var headers : [String:String]
     
     
-    private var request : HTTP?
-    
-    private var shouldHandleRequest : Bool
+    public var request : Request?
+    let sessionManager = Alamofire.SessionManager.default
     
     
     public init (url : String, parameters : [String:Any] = [:], headers : [String:String] = [:]) {
@@ -49,108 +48,57 @@ open class VCHTTPConnect {
         self.parameters = parameters
         self.headers = headers
         self.request = nil
-        self.shouldHandleRequest = true
+        
+        self.sessionManager.startRequestsImmediately = false
     }
     
     
     /** Starts a POST connection on the given Path **/
     public func post(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        do {
-            let opt = try HTTP.POST(self.url + path, parameters: self.getParameters(), headers: self.getHeaders())
-            
-            self.startRequest(opt: opt, handler: handler)
-        }
-        catch let error {
-            debugPrint("[VCHTTPConnect] Error creating request: \(error)")
-            
-            self.request = nil
-            
-            DispatchQueue.main.async {
-                handler(false, HTTPResponse(statusCode: nil, error: error, headers: nil, url: nil, data: nil))
-            }
-        }
+        self.startRequest(url: self.url + path,
+                          method: .post,
+                          handler: handler)
     }
     
     /** Starts a PUT connection on the given Path **/
     public func put(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        do {
-            let opt = try HTTP.PUT(self.url + path, parameters: self.getParameters(), headers: self.getHeaders())
-            
-            self.startRequest(opt: opt, handler: handler)
-        }
-        catch let error {
-            debugPrint("[VCHTTPConnect] Error creating request: \(error)")
-            
-            self.request = nil
-            
-            DispatchQueue.main.async {
-                handler(false, HTTPResponse(statusCode: nil, error: error, headers: nil, url: nil, data: nil))
-            }
-        }
+        self.startRequest(url: self.url + path,
+                          method: .put,
+                          handler: handler)
     }
     
     /** Starts a GET connection on the given Path **/
     public func get(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        do {
-            let opt = try HTTP.GET(self.url + path, parameters: self.getParameters(), headers: self.getHeaders())
-            
-            self.startRequest(opt: opt, handler: handler)
-        }
-        catch let error {
-            debugPrint("[VCHTTPConnect] Error creating request: \(error)")
-            
-            self.request = nil
-            
-            DispatchQueue.main.async {
-                handler(false, HTTPResponse(statusCode: nil, error: error, headers: nil, url: nil, data: nil))
-            }
-        }
+        self.startRequest(url: self.url + path,
+                          method: .get,
+                          handler: handler)
     }
     
     /** Starts a DELETE connection on the given Path **/
     public func delete(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        do {
-            let opt = try HTTP.DELETE(self.url + path, parameters: self.getParameters(), headers: self.getHeaders())
-            
-            self.startRequest(opt: opt, handler: handler)
-        }
-        catch let error {
-            debugPrint("[VCHTTPConnect] Error creating request: \(error)")
-            
-            self.request = nil
-            
-            DispatchQueue.main.async {
-                handler(false, HTTPResponse(statusCode: nil, error: error, headers: nil, url: nil, data: nil))
-            }
-        }
+        self.startRequest(url: self.url + path,
+                          method: .delete,
+                          handler: handler)
     }
     
     /** Cancels the current request **/
     public func cancelRequest() {
-        self.shouldHandleRequest = false
         self.request?.cancel()
     }
     
     
-    private func startRequest(opt : HTTP, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        self.request = opt
-        
-        opt.start { response in
-            //do things...
-            
-            self.request = nil
-            
-            if self.shouldHandleRequest {
-                DispatchQueue.main.async {
-                    handler(
-                        (response.statusCode != nil && response.statusCode! >= 200 && response.statusCode! <= 299),
-                        HTTPResponse(statusCode: response.statusCode, error: response.error, headers: response.headers, url: response.URL, data: response.data))
-                }
-            }
-            else {
-                self.shouldHandleRequest = true
-            }
+    private func startRequest(url: String, method : HTTPMethod, handler : @escaping (Bool, HTTPResponse) -> Void) {
+        self.request = Alamofire.request(url,
+                                         method: method,
+                                         parameters: self.parameters,
+                                         encoding: URLEncoding(destination: .methodDependent),
+                                         headers: self.headers).validate().responseJSON { response in
+                                            
+                                            self.request = nil
+                                            handler(response.result.isSuccess, HTTPResponse(statusCode: response.response?.statusCode, error: response.error, headers: response.response?.allHeaderFields as? [String : String], url: response.response?.url, data: response.data))
         }
+        
+        self.request?.resume()
     }
     
     
