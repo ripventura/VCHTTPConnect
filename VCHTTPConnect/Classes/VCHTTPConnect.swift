@@ -60,28 +60,28 @@ open class VCHTTPConnect {
     
     /** Starts a POST connection on the given Path **/
     public func post(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        self.startRequest(url: self.url + path,
+        self.startRESTRequest(url: self.url + path,
                           method: .post,
                           handler: handler)
     }
     
     /** Starts a PUT connection on the given Path **/
     public func put(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        self.startRequest(url: self.url + path,
+        self.startRESTRequest(url: self.url + path,
                           method: .put,
                           handler: handler)
     }
     
     /** Starts a GET connection on the given Path **/
     public func get(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        self.startRequest(url: self.url + path,
+        self.startRESTRequest(url: self.url + path,
                           method: .get,
                           handler: handler)
     }
     
     /** Starts a DELETE connection on the given Path **/
     public func delete(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
-        self.startRequest(url: self.url + path,
+        self.startRESTRequest(url: self.url + path,
                           method: .delete,
                           handler: handler)
     }
@@ -91,13 +91,36 @@ open class VCHTTPConnect {
         self.request?.cancel()
     }
     
+    /** Downloads a file on the given path **/
+    public func download(path : String, progressHandler : ((Double) -> Void)?, handler : @escaping (Bool, HTTPResponse) -> Void) {
+        self.startDownloadRequest(url: self.url + path,
+                                  progressHandler: progressHandler,
+                                  handler: handler)
+    }
     
-    private func startRequest(url: String, method : HTTPMethod, handler : @escaping (Bool, HTTPResponse) -> Void) {
+    
+    private func startRESTRequest(url: String, method : HTTPMethod, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.request = Alamofire.request(url,
                                          method: method,
                                          parameters: method == .get || method == .delete ? self.parameters as! [String:String] : self.parameters,
                                          encoding: URLEncoding(destination: .methodDependent),
                                          headers: self.headers).validate().responseJSON { response in
+                                            
+                                            self.request = nil
+                                            handler(response.result.isSuccess, HTTPResponse(statusCode: response.response?.statusCode, error: response.error, headers: response.response?.allHeaderFields as? [String : String], url: response.response?.url, data: response.data))
+        }
+        
+        self.request?.resume()
+    }
+    
+    private func startDownloadRequest(url: String, progressHandler : ((Double) -> Void)?, handler : @escaping (Bool, HTTPResponse) -> Void) {
+        self.request = Alamofire.request(url,
+                                         method: .get,
+                                         parameters: self.parameters as! [String:String],
+                                         encoding: URLEncoding(destination: .methodDependent),
+                                         headers: self.headers).downloadProgress { progress in
+                                            progressHandler?(progress.fractionCompleted)
+            }.validate().responseData { response in
                                             
                                             self.request = nil
                                             handler(response.result.isSuccess, HTTPResponse(statusCode: response.response?.statusCode, error: response.error, headers: response.response?.allHeaderFields as? [String : String], url: response.response?.url, data: response.data))

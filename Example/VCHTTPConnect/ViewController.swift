@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         self.startPOSTRequest()
     }
     
+    
     func updateInterface(loading : Bool) {
         if loading {
             self.mainActivityIndicator.startAnimating()
