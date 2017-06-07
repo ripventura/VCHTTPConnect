@@ -30,7 +30,7 @@ open class VCHTTPConnect {
     
     /* Parameters to be used on the call. 
      * On POST and PUT calls this represents the Body.
-     * On GET calls this will be encoded on the URL. */
+     * On GET calls this will be encoded on the URL and must be on [String:String] format. */
     public var parameters : [String:Any]
     
     // Header used on the call
@@ -95,7 +95,7 @@ open class VCHTTPConnect {
     private func startRequest(url: String, method : HTTPMethod, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.request = Alamofire.request(url,
                                          method: method,
-                                         parameters: self.parameters,
+                                         parameters: method == .get || method == .delete ? self.parameters as! [String:String] : self.parameters,
                                          encoding: URLEncoding(destination: .methodDependent),
                                          headers: self.headers).validate().responseJSON { response in
                                             
