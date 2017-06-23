@@ -42,7 +42,7 @@ open class VCGraphQLDatastore: NSObject {
     // MARK: - Querying
     
     /** Queries the Datastore with the given Query and Variables */
-    open func query(query: [String:Any],
+    open func query(query: String,
                     variables: [String:Any]?,
                    completionHandler: @escaping((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
         let config = self.datastoreWithConfig()
