@@ -39,35 +39,12 @@ open class VCGraphQLDatastore: NSObject {
         return VCHTTPModel(JSON: jsonDict)!
     }
     
-    /** Parses the result of a Query. Override this in a sub-class if needed. */
-    open func parseQueryResult(data: Data) -> [VCHTTPModel]? {
-        do {
-            let jsonObject: [[String:Any]]? = try JSONSerialization.jsonObject(with: data,
-                                                                               options: JSONSerialization.ReadingOptions.allowFragments) as? [[String:Any]]
-            
-            if let jsonArray = jsonObject {
-                var models: [VCHTTPModel] = []
-                
-                for modelDict in jsonArray {
-                    models.append(self.modelFromDict(jsonDict: modelDict))
-                }
-                
-                return models
-            } else {
-                return nil
-            }
-        }
-        catch {
-            return nil
-        }
-    }
-    
     // MARK: - Querying
     
     /** Queries the Datastore with the given Query and Variables */
     open func query(query: [String:Any],
                     variables: [String:Any]?,
-                   completionHandler: @escaping((VCHTTPConnect.HTTPResponse, [VCHTTPModel]?) -> Void)) -> Void {
+                   completionHandler: @escaping((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
         let config = self.datastoreWithConfig()
         
         var params : [String:Any] = ["query":query]
@@ -79,11 +56,7 @@ open class VCGraphQLDatastore: NSObject {
         self.connector?.parameters = params
         self.connector?.headers = config.headers
         self.connector?.post(path: "", handler: {success, response in
-            if success {
-                completionHandler(response, self.parseQueryResult(data: response.data!))
-            } else {
-                completionHandler(response, nil)
-            }
+            completionHandler(success, response)
         })
     }
 }
