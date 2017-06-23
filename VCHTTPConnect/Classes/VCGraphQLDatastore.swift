@@ -22,6 +22,7 @@ open class VCGraphQLDatastore: NSObject {
     /** Connector used on HTTP Requests */
     public var connector: VCHTTPConnect?
     
+    // MARK: - Overridable
     
     /** Use this initalizer if you are initializing a custom datastore. */
     public override init() {
@@ -32,10 +33,36 @@ open class VCGraphQLDatastore: NSObject {
     open func datastoreWithConfig() -> VCGraphQLDatastore.Config {
         return .init(url: "", headers: [:])
     }
+    
     /** Override this if you need to return custom sub-classed models. */
     open func modelFromDict(jsonDict: [String:Any]) -> VCHTTPModel {
         return VCHTTPModel(JSON: jsonDict)!
     }
+    
+    /** Parses the result of a Query. Override this in a sub-class if needed. */
+    open func parseQueryResult(data: Data) -> [VCHTTPModel]? {
+        do {
+            let jsonObject: [[String:Any]]? = try JSONSerialization.jsonObject(with: data,
+                                                                               options: JSONSerialization.ReadingOptions.allowFragments) as? [[String:Any]]
+            
+            if let jsonArray = jsonObject {
+                var models: [VCHTTPModel] = []
+                
+                for modelDict in jsonArray {
+                    models.append(self.modelFromDict(jsonDict: modelDict))
+                }
+                
+                return models
+            } else {
+                return nil
+            }
+        }
+        catch {
+            return nil
+        }
+    }
+    
+    // MARK: - Querying
     
     /** Queries the Datastore with the given Query and Variables */
     open func query(query: [String:Any],
@@ -53,24 +80,9 @@ open class VCGraphQLDatastore: NSObject {
         self.connector?.headers = config.headers
         self.connector?.post(path: "", handler: {success, response in
             if success {
-                do {
-                    let jsonObject: [[String:Any]]? = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [[String:Any]]
-                    
-                    if let jsonArray = jsonObject {
-                        var models: [VCHTTPModel] = []
-                        
-                        for modelDict in jsonArray {
-                            models.append(self.modelFromDict(jsonDict: modelDict))
-                        }
-                        
-                        completionHandler(response, models)
-                    }
-                }
-                catch {
-                    return completionHandler(response, nil)
-                }
+                completionHandler(response, self.parseQueryResult(data: response.data!))
             } else {
-                return completionHandler(response, nil)
+                completionHandler(response, nil)
             }
         })
     }
