@@ -9,21 +9,7 @@
 import UIKit
 import ObjectMapper
 
-open class VCHTTPModel: Mappable {
-
-    /* This model Id */
-    public var modelId: Any?
-    
-    /* Connector used on HTTP Requests */
-    public var connector: VCHTTPConnect?
-    
-    
-    //Connector should be initialized here. Override this method on each subclass.
-    open func initializeConnector() -> Void {
-        
-    }
-
-    
+open class VCHTTPModel: VCEntityModel {
     // MARK: - Operations
     
     //Creates an entity based on this model
@@ -36,6 +22,7 @@ open class VCHTTPModel: Mappable {
             assert(true, "Connector not initialized!")
         }
     }
+    
     //Updates an entity based on this model
     open func update(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
         if let connector = self.connector {
@@ -46,6 +33,7 @@ open class VCHTTPModel: Mappable {
             assert(true, "Connector not initialized!")
         }
     }
+    
     //Removes an entity based on this model ID
     open func remove(completionHandler: @escaping ((Bool, VCHTTPConnect.HTTPResponse) -> Void)) -> Void {
         if let connector = self.connector {
@@ -59,16 +47,5 @@ open class VCHTTPModel: Mappable {
         } else {
             assert(true, "Connector not initialized!")
         }
-    }
-    
-    
-    // MARK: - ObjectMapper
-    required public init?(map: Map) {
-        self.initializeConnector()
-    }
-    
-    // Mappable
-    open func mapping(map: Map) {
-        self.modelId <- map["id"]
     }
 }
