@@ -10,6 +10,22 @@ import UIKit
 import ObjectMapper
 
 open class VCHTTPModel: VCEntityModel {
+    
+    /** Connector used on HTTP Requests */
+    public var connector: VCHTTPConnect?
+    
+    required public init?(map: Map) {
+        super.init(map: map)
+        self.initializeConnector()
+    }
+    
+    // MARK: - Overridable
+    
+    /** Initialize the connector with the desired settings */
+    open func initializeConnector() -> Void {
+        
+    }
+    
     // MARK: - Operations
     
     //Creates an entity based on this model
