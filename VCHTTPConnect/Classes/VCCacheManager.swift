@@ -8,12 +8,14 @@
 
 import UIKit
 import VCSwiftToolkit
+import ObjectMapper
 
 let sharedCacheManager: VCCacheManager = VCCacheManager()
 
 /** Stores and retrieves data from local storage. */
 open class VCCacheManager {
     public enum CacheType: String {
+        case json = "Json"
         case dictionary = "Dictionary"
         case array = "Array"
         case string = "String"
@@ -26,63 +28,81 @@ open class VCCacheManager {
     }
     
     /** Caches content locally */
-    open func cache(type: CacheType, content: Any, key: String) -> Void {
-        switch type {
-        case .dictionary:
-            if let content = content as? NSDictionary {
-                return VCFileManager.writeDictionary(dictionary: content,
+    open func cache(type: CacheType, content: Any, key: String) -> VCOperationResult {
+        if let key = key.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) {
+            switch type {
+            case .json:
+                if let content = content as? [String:Any] {
+                    return VCFileManager.writeJSON(json: content,
+                                                   fileName: key,
+                                                   fileExtension: self.fileExtension(type: type),
+                                                   directory: .library,
+                                                   customFolder: self.cacheFolderName(type: type),
+                                                   replaceExisting: true)
+                }
+            case .dictionary:
+                if let content = content as? NSDictionary {
+                    return VCFileManager.writeDictionary(dictionary: content,
+                                                         fileName: key,
+                                                         fileExtension: self.fileExtension(type: type),
+                                                         directory: .library,
+                                                         customFolder: self.cacheFolderName(type: type),
+                                                         replaceExisting: true)
+                }
+            case .array:
+                if let content = content as? NSArray {
+                    return VCFileManager.writeArray(array: content,
+                                                    fileName: key,
+                                                    fileExtension: self.fileExtension(type: type),
+                                                    directory: .library,
+                                                    customFolder: self.cacheFolderName(type: type),
+                                                    replaceExisting: true)
+                }
+            case .string:
+                if let content = content as? String {
+                    return VCFileManager.writeString(string: content,
                                                      fileName: key,
                                                      fileExtension: self.fileExtension(type: type),
                                                      directory: .library,
                                                      customFolder: self.cacheFolderName(type: type),
                                                      replaceExisting: true)
-            }
-        case .array:
-            if let content = content as? NSArray {
-                return VCFileManager.writeArray(array: content,
-                                                fileName: key,
-                                                fileExtension: self.fileExtension(type: type),
-                                                directory: .library,
-                                                customFolder: self.cacheFolderName(type: type),
-                                                replaceExisting: true)
-            }
-        case .string:
-            if let content = content as? String {
-                return VCFileManager.writeString(string: content,
-                                                 fileName: key,
-                                                 fileExtension: self.fileExtension(type: type),
-                                                 directory: .library,
-                                                 customFolder: self.cacheFolderName(type: type),
-                                                 replaceExisting: true)
-            }
-        case .imageJPG, .imagePNG:
-            if let content = content as? UIImage {
-                if type == .imageJPG {
-                    return VCFileManager.writeImage(image: content,
-                                                    imageFormat: .JPG,
-                                                    fileName: key,
-                                                    fileExtension: self.fileExtension(type: type),
-                                                    directory: .library,
-                                                    customFolder: self.cacheFolderName(type: type),
-                                                    replaceExisting: true)
                 }
-                else if type == .imagePNG {
-                    return VCFileManager.writeImage(image: content,
-                                                    imageFormat: .PNG,
-                                                    fileName: key,
-                                                    fileExtension: self.fileExtension(type: type),
-                                                    directory: .library,
-                                                    customFolder: self.cacheFolderName(type: type),
-                                                    replaceExisting: true)
+            case .imageJPG, .imagePNG:
+                if let content = content as? UIImage {
+                    if type == .imageJPG {
+                        return VCFileManager.writeImage(image: content,
+                                                        imageFormat: .JPG,
+                                                        fileName: key,
+                                                        fileExtension: self.fileExtension(type: type),
+                                                        directory: .library,
+                                                        customFolder: self.cacheFolderName(type: type),
+                                                        replaceExisting: true)
+                    }
+                    else if type == .imagePNG {
+                        return VCFileManager.writeImage(image: content,
+                                                        imageFormat: .PNG,
+                                                        fileName: key,
+                                                        fileExtension: self.fileExtension(type: type),
+                                                        directory: .library,
+                                                        customFolder: self.cacheFolderName(type: type),
+                                                        replaceExisting: true)
+                    }
                 }
             }
+            print("-- Cache Failed --\nInvalid Content for Type: " + type.rawValue)
         }
-        print("-- Cache Failed --\nInvalid Content for Type: " + type.rawValue)
+        print("-- Cache Failed --\nInvalid Key: " + key)
+        return VCOperationResult(success: false, error: nil)
     }
     
     /** Retireves a local cache */
     open func retrieve(type: CacheType, key: String) -> Any {
         switch type {
+        case .json:
+            return VCFileManager.readJSON(fileName: key,
+                                          fileExtension: self.fileExtension(type: type),
+                                          directory: .library,
+                                          customFolder: self.cacheFolderName(type: type)) as Any
         case .dictionary:
             return VCFileManager.readDictionary(fileName: key,
                                                 fileExtension: self.fileExtension(type: type),
@@ -112,7 +132,8 @@ open class VCCacheManager {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
                                                   folderName: self.cacheFolderName())
         
-        
+        _ = VCFileManager.createFolderInDirectory(directory: .library,
+                                                  folderName: self.cacheFolderName(type: .json))
         _ = VCFileManager.createFolderInDirectory(directory: .library,
                                                   folderName: self.cacheFolderName(type: .dictionary))
         _ = VCFileManager.createFolderInDirectory(directory: .library,
@@ -135,6 +156,8 @@ open class VCCacheManager {
     
     private func fileExtension(type: CacheType) -> String {
         switch type {
+        case .json:
+            return "json"
         case .dictionary, .array:
             return "plist"
         case .string:

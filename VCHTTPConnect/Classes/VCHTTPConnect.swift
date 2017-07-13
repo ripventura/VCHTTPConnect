@@ -110,29 +110,29 @@ open class VCHTTPConnect {
     /** Starts a POST connection on the given Path **/
     public func post(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
-                          method: .post,
-                          handler: handler)
+                              method: .post,
+                              handler: handler)
     }
     
     /** Starts a PUT connection on the given Path **/
     public func put(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
-                          method: .put,
-                          handler: handler)
+                              method: .put,
+                              handler: handler)
     }
     
     /** Starts a GET connection on the given Path **/
     public func get(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
-                          method: .get,
-                          handler: handler)
+                              method: .get,
+                              handler: handler)
     }
     
     /** Starts a DELETE connection on the given Path **/
     public func delete(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
-                          method: .delete,
-                          handler: handler)
+                              method: .delete,
+                              handler: handler)
     }
     
     /** Cancels the current request **/
@@ -187,7 +187,7 @@ open class VCHTTPConnect {
                 let httpResponse = HTTPResponse(response: response)
                 
                 handler(response.result.isSuccess, httpResponse)
-                    
+                
                 self.verifyOnlineConnection(response: httpResponse)
         }
         
@@ -208,6 +208,11 @@ open class VCHTTPConnect {
                 if sharedConnectionManager.activeConnection != .online {
                     sharedConnectionManager.activeConnection = .online
                 }
+            }
+        }
+        else {
+            if sharedConnectionManager.activeConnection != .offline {
+                sharedConnectionManager.activeConnection = .offline
             }
         }
     }

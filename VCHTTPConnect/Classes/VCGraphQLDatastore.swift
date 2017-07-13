@@ -38,15 +38,15 @@ open class VCGraphQLDatastore: NSObject {
     
     // MARK: - Query
     
-    /** Queries the Datastore with the given Query and Variables. 
+    /** Queries the Datastore with the given Query and Variables.
      - Parameters:
-        - query: The Query to be made.
-        - variables: Optional dictionary of variables for this Query.
-        - replaceCache: Wheter or not the local cache (if any) for this Query should be replaced by this reponse (in case of success).
+     - query: The Query to be made.
+     - variables: Optional dictionary of variables for this Query.
+     - cacheKey: A optional Key to be used to store this Query's reponse (in case of success).
      */
     open func query(query: String,
                     variables: [String:Any]?,
-                    replaceCache: Bool = true,
+                    cacheKey: String? = nil,
                     completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
         
         // If the ConnectionManager is in Online mode
@@ -61,10 +61,10 @@ open class VCGraphQLDatastore: NSObject {
                         
                         dataDict = jsonObject?["data"] as? [String:Any]
                         
-                        // If this Datastore is set to cache data and this specific query should override any existing content
-                        if self.isCachingEnabled && replaceCache {
-                            // Caches data
-                            sharedCacheManager.cache(type: .dictionary, content: dataDict as Any, key: query)
+                        // If this Datastore is set to cache data and a Key was provided
+                        if self.isCachingEnabled && cacheKey != nil {
+                            // Caches data (overriding any existing content)
+                            print("Cache for " + cacheKey! + ":", sharedCacheManager.cache(type: .json, content: dataDict as Any, key: cacheKey!).success)
                         }
                     }
                     catch {
@@ -74,7 +74,7 @@ open class VCGraphQLDatastore: NSObject {
                 return completionHandler(response, dataDict)
             })
         }
-        // If the ConnectionManager is in Offline mode
+            // If the ConnectionManager is in Offline mode
         else {
             // If theres any cached data for this Query
             if let cachedDataDict = sharedCacheManager.retrieve(type: .dictionary, key: query) as? [String:Any] {
@@ -90,17 +90,15 @@ open class VCGraphQLDatastore: NSObject {
     
     /** Performs a Mutation on the Datastore with the given Query and Variables.
      - Parameters:
-        - query: The Query to be made.
-        - variables: Optional dictionary of variables for this Query.
-        - replaceCache: Wheter or not the local cache (if any) for this Query should be replaced by this reponse (in case of success).
+     - query: The Query to be made.
+     - variables: Optional dictionary of variables for this Query.
      */
     open func mutation(query: String,
                        variables: [String:Any]?,
-                       replaceCache: Bool = true,
                        completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
         self.query(query: query,
                    variables: variables,
-                   replaceCache: replaceCache,
+                   cacheKey: nil,
                    completionHandler: completionHandler)
     }
     
