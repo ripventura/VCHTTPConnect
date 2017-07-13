@@ -33,45 +33,65 @@ open class VCGraphQLDatastore: NSObject {
         
     }
     
-    /** Default Model initialization. */
-    open func modelFromDict(jsonDict: [String:Any]) -> VCGraphQLModel {
-        return VCGraphQLModel(JSON: jsonDict)!
-    }
-    
     // MARK: - Query
     
-    /** Queries the Datastore with the given Query and Variables. */
+    /** Queries the Datastore with the given Query and Variables. 
+     - Parameters:
+        - query: The Query to be made.
+        - variables: Optional dictionary of variables for this Query.
+        - replaceCache: Wheter or not the local cache (if any) for this Query should be replaced by this reponse (in case of success).
+     */
     open func query(query: String,
                     variables: [String:Any]?,
-                    completionHandler: @escaping((VCHTTPConnect.HTTPResponse, [String:Any]?) -> Void)) -> Void {
+                    replaceCache: Bool = true,
+                    completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
         
-        self.setupConnector(query: query, variables: variables)
-        self.connector?.post(path: "", handler: {success, response in
-            var dataDict: [String:Any]?
-            
-            if success {
-                do {
-                    let jsonObject: [String:Any]? = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [String:Any]
-                    
-                    dataDict = jsonObject?["data"] as? [String:Any]
+        // If the ConnectionManager is in Online mode
+        if sharedConnectionManager.activeConnection == .online {
+            self.setupConnector(query: query, variables: variables)
+            self.connector?.post(path: "", handler: {success, response in
+                var dataDict: [String:Any]?
+                
+                if success {
+                    do {
+                        let jsonObject: [String:Any]? = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [String:Any]
+                        
+                        dataDict = jsonObject?["data"] as? [String:Any]
+                    }
+                    catch {
+                    }
                 }
-                catch {
-                }
+                
+                return completionHandler(response, dataDict)
+            })
+        }
+        // If the ConnectionManager is in Offline mode
+        else {
+            // If theres any cached data for this Query
+            if let cachedDataDict = sharedCacheManager.retrieve(type: .dictionary, key: query) as? [String:Any] {
+                return completionHandler(nil, cachedDataDict)
             }
-            
-            return completionHandler(response, dataDict)
-        })
+            else {
+                return completionHandler(nil, nil)
+            }
+        }
     }
     
     // MARK: - Mutation
     
-    /** Performs a Mutation on the Datastore with the given Query and Variables */
+    /** Performs a Mutation on the Datastore with the given Query and Variables.
+     - Parameters:
+        - query: The Query to be made.
+        - variables: Optional dictionary of variables for this Query.
+        - replaceCache: Wheter or not the local cache (if any) for this Query should be replaced by this reponse (in case of success).
+     */
     open func mutation(query: String,
-                    variables: [String:Any]?,
-                    completionHandler: @escaping((VCHTTPConnect.HTTPResponse, [String:Any]?) -> Void)) -> Void {
-        
+                       variables: [String:Any]?,
+                       replaceCache: Bool = true,
+                       completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
         self.query(query: query,
                    variables: variables,
+                   replaceCache: replaceCache,
                    completionHandler: completionHandler)
     }
     

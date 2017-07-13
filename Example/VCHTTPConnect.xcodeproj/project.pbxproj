@@ -221,10 +221,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 4P23Y3864T;
 						LastSwiftMigration = 0820;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 4P23Y3864T;
 						LastSwiftMigration = 0820;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -504,6 +506,7 @@
 			baseConfigurationReference = C5BBE77F58AC3BC0CEC113DA /* Pods-VCHTTPConnect_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4P23Y3864T;
 				INFOPLIST_FILE = VCHTTPConnect/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -518,6 +521,7 @@
 			baseConfigurationReference = B7FB0E3525023571722F0970 /* Pods-VCHTTPConnect_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4P23Y3864T;
 				INFOPLIST_FILE = VCHTTPConnect/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -531,6 +535,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E3B78CC7EC8F53F9BA947C64 /* Pods-VCHTTPConnect_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 4P23Y3864T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -551,6 +556,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3884651FCA079EB58AE4297D /* Pods-VCHTTPConnect_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 4P23Y3864T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

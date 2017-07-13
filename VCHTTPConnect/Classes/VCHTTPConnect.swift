@@ -9,6 +9,39 @@
 import Foundation
 import Alamofire
 
+/** Shared VCConnectionManager. Update it's activeConnection to swap between online and offline mode. */
+let sharedConnectionManager: VCConnectionManager = VCConnectionManager()
+
+/** Responsible for managing the active ConnectionState used on Datastore loading. */
+open class VCConnectionManager {
+    public enum ConnectionState {
+        case online, offline
+    }
+    
+    let connectionDidEnterOfflineNotification: Notification.Name = Notification.Name.init("VCConnectionManager_didEnter_Offline")
+    let connectionDidEnterOnlineNotification: Notification.Name = Notification.Name.init("VCConnectionManager_didEnter_Online")
+    
+    open var activeConnection: ConnectionState = .online {
+        didSet {
+            self.postConnectionTypeNotification()
+        }
+    }
+    
+    init() {
+        
+    }
+    
+    /** Notifies about the activeConnection state change */
+    func postConnectionTypeNotification() -> Void {
+        if self.activeConnection == .online {
+            NotificationCenter.default.post(Notification(name: self.connectionDidEnterOnlineNotification))
+        }
+        else if self.activeConnection == .offline {
+            NotificationCenter.default.post(Notification(name: self.connectionDidEnterOfflineNotification))
+        }
+    }
+}
+
 open class VCHTTPConnect {
     
     // Object used to represent a response from an HTTP call
@@ -23,12 +56,28 @@ open class VCHTTPConnect {
         public let url : URL?
         // Data returned on the connection
         public let data : Data?
+        
+        /** Initializes this HTTPResponse with an Alamofire Response object. */
+        public init(response: DataResponse<Data>) {
+            self.statusCode = response.response?.statusCode
+            self.error = response.error
+            self.headers = response.response?.allHeaderFields as? [String : String]
+            self.url = response.response?.url
+            self.data = response.data
+        }
+        public init(response: DataResponse<Any>) {
+            self.statusCode = response.response?.statusCode
+            self.error = response.error
+            self.headers = response.response?.allHeaderFields as? [String : String]
+            self.url = response.response?.url
+            self.data = response.data
+        }
     }
     
     // URL string used on the call
     public var url : String
     
-    /* Parameters to be used on the call. 
+    /* Parameters to be used on the call.
      * On POST and PUT calls this represents the Body.
      * On GET calls this will be encoded on the URL and must be on [String:String] format. */
     public var parameters : [String:Any]
@@ -100,20 +149,30 @@ open class VCHTTPConnect {
     
     
     private func startRESTRequest(url: String, method : HTTPMethod, handler : @escaping (Bool, HTTPResponse) -> Void) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         self.request = Alamofire.request(url,
                                          method: method,
                                          parameters: method == .get || method == .delete ? self.parameters as! [String:String] : self.parameters,
                                          encoding: URLEncoding(destination: .methodDependent),
                                          headers: self.headers).validate().responseJSON { response in
+                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                             
                                             self.request = nil
-                                            handler(response.result.isSuccess, HTTPResponse(statusCode: response.response?.statusCode, error: response.error, headers: response.response?.allHeaderFields as? [String : String], url: response.response?.url, data: response.data))
+                                            
+                                            let httpResponse = HTTPResponse(response: response)
+                                            
+                                            handler(response.result.isSuccess, httpResponse)
+                                            
+                                            self.verifyOnlineConnection(response: httpResponse)
         }
         
         self.request?.resume()
     }
     
     private func startDownloadRequest(url: String, progressHandler : ((Double) -> Void)?, handler : @escaping (Bool, HTTPResponse) -> Void) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         self.request = Alamofire.request(url,
                                          method: .get,
                                          parameters: self.parameters as! [String:String],
@@ -121,22 +180,35 @@ open class VCHTTPConnect {
                                          headers: self.headers).downloadProgress { progress in
                                             progressHandler?(progress.fractionCompleted)
             }.validate().responseData { response in
-                                            
-                                            self.request = nil
-                                            handler(response.result.isSuccess, HTTPResponse(statusCode: response.response?.statusCode, error: response.error, headers: response.response?.allHeaderFields as? [String : String], url: response.response?.url, data: response.data))
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                self.request = nil
+                
+                let httpResponse = HTTPResponse(response: response)
+                
+                handler(response.result.isSuccess, httpResponse)
+                    
+                self.verifyOnlineConnection(response: httpResponse)
         }
         
         self.request?.resume()
     }
     
+    // MARK: - Helpers
     
-    /** Override this if you want to use predefined values on a sub-class **/
-    internal func getParameters() -> [String:Any]{
-        return self.parameters
+    /** Verifies if the connection was lost because of internet being offline, posting a notification about offline mode. */
+    internal func verifyOnlineConnection(response: HTTPResponse) -> Void {
+        if let statusCode = response.statusCode {
+            if statusCode >= 500 && statusCode <= 599 {
+                if sharedConnectionManager.activeConnection != .offline {
+                    sharedConnectionManager.activeConnection = .offline
+                }
+            }
+            else {
+                if sharedConnectionManager.activeConnection != .online {
+                    sharedConnectionManager.activeConnection = .online
+                }
+            }
+        }
     }
-    /** Override this if you want to use predefined values on a sub-class **/
-    internal func getHeaders() -> [String:String]{
-        return self.headers
-    }
-    
 }
