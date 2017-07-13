@@ -26,6 +26,9 @@ open class VCGraphQLDatastore: NSObject {
     /** Connector used on HTTP Requests */
     public var connector: VCHTTPConnect?
     
+    /** Wheter or not data should be cached after a successfull connection */
+    public var isCachingEnabled: Bool = true
+    
     // MARK: - Overridable
     
     /** Use this initalizer if you are initializing a custom datastore. */
@@ -57,6 +60,12 @@ open class VCGraphQLDatastore: NSObject {
                         let jsonObject: [String:Any]? = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [String:Any]
                         
                         dataDict = jsonObject?["data"] as? [String:Any]
+                        
+                        // If this Datastore is set to cache data and this specific query should override any existing content
+                        if self.isCachingEnabled && replaceCache {
+                            // Caches data
+                            sharedCacheManager.cache(type: .dictionary, content: dataDict as Any, key: query)
+                        }
                     }
                     catch {
                     }

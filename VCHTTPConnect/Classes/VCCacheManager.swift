@@ -108,7 +108,7 @@ open class VCCacheManager {
     
     // MARK: - Internal
     
-    internal func prepareCacheStructure() -> Void {
+    private func prepareCacheStructure() -> Void {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
                                                   folderName: self.cacheFolderName())
         
@@ -125,15 +125,15 @@ open class VCCacheManager {
                                                   folderName: self.cacheFolderName(type: .imagePNG))
     }
     
-    internal func cacheFolderName() -> String {
+    private func cacheFolderName() -> String {
         return "VCCachedContent"
     }
     
-    internal func cacheFolderName(type: CacheType) -> String {
+    private func cacheFolderName(type: CacheType) -> String {
         return self.cacheFolderName() + "/" + type.rawValue
     }
     
-    internal func fileExtension(type: CacheType) -> String {
+    private func fileExtension(type: CacheType) -> String {
         switch type {
         case .dictionary, .array:
             return "plist"
