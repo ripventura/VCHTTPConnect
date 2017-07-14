@@ -10,7 +10,11 @@ import Foundation
 import Alamofire
 
 /** Shared VCConnectionManager. Update it's activeConnection to swap between online and offline mode. */
-let sharedConnectionManager: VCConnectionManager = VCConnectionManager()
+public let sharedConnectionManager: VCConnectionManager = VCConnectionManager()
+
+public protocol VCConnectionManagerDelegate {
+    func shouldChange(state: VCConnectionManager.ConnectionState) -> Bool
+}
 
 /** Responsible for managing the active ConnectionState used on Datastore loading. */
 open class VCConnectionManager {
@@ -21,14 +25,22 @@ open class VCConnectionManager {
     let connectionDidEnterOfflineNotification: Notification.Name = Notification.Name.init("VCConnectionManager_didEnter_Offline")
     let connectionDidEnterOnlineNotification: Notification.Name = Notification.Name.init("VCConnectionManager_didEnter_Online")
     
-    open var activeConnection: ConnectionState = .online {
-        didSet {
-            self.postConnectionTypeNotification()
-        }
-    }
+    open var activeConnection: ConnectionState = .online
+    open var delegate: VCConnectionManagerDelegate?
     
     init() {
         
+    }
+    
+    func updateActiveConnection(state: ConnectionState) -> Void {
+        if let delegate = self.delegate {
+            if !delegate.shouldChange(state: state) {
+                return
+            }
+        }
+        
+        self.activeConnection = state
+        self.postConnectionTypeNotification()
     }
     
     /** Notifies about the activeConnection state change */
@@ -201,18 +213,18 @@ open class VCHTTPConnect {
         if let statusCode = response.statusCode {
             if statusCode >= 500 && statusCode <= 599 {
                 if sharedConnectionManager.activeConnection != .offline {
-                    sharedConnectionManager.activeConnection = .offline
+                    sharedConnectionManager.updateActiveConnection(state: .offline)
                 }
             }
             else {
                 if sharedConnectionManager.activeConnection != .online {
-                    sharedConnectionManager.activeConnection = .online
+                    sharedConnectionManager.updateActiveConnection(state: .online)
                 }
             }
         }
         else {
             if sharedConnectionManager.activeConnection != .offline {
-                sharedConnectionManager.activeConnection = .offline
+                sharedConnectionManager.updateActiveConnection(state: .offline)
             }
         }
     }

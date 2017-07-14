@@ -81,7 +81,7 @@ open class VCGraphQLDatastore: NSObject {
                 return completionHandler(nil, cachedDataDict)
             }
             else {
-                return completionHandler(nil, nil)
+                return completionHandler(nil, [:])
             }
         }
     }
