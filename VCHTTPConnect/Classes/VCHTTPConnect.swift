@@ -34,13 +34,11 @@ open class VCConnectionManager {
     
     func updateActiveConnection(state: ConnectionState) -> Void {
         if let delegate = self.delegate {
-            if !delegate.shouldChange(state: state) {
-                return
+            if delegate.shouldChange(state: state) {
+                self.activeConnection = state
+                self.postConnectionTypeNotification()
             }
         }
-        
-        self.activeConnection = state
-        self.postConnectionTypeNotification()
     }
     
     /** Notifies about the activeConnection state change */
