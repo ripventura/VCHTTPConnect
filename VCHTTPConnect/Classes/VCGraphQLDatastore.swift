@@ -50,7 +50,7 @@ open class VCGraphQLDatastore: NSObject {
                     completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
         
         // If the ConnectionManager is in Online mode
-        if sharedConnectionManager.activeConnection == .online {
+        if sharedConnectionManager.state == .online {
             self.setupConnector(query: query, variables: variables)
             self.connector?.post(path: "", handler: {success, response in
                 var dataDict: [String:Any]?
@@ -76,7 +76,7 @@ open class VCGraphQLDatastore: NSObject {
         }
             // If the ConnectionManager is in Offline mode
         else {
-            // If theres any cached data for this Query
+            // If there's any cached data for this Query
             if let cachedDataDict = sharedCacheManager.retrieve(type: .dictionary, key: query) as? [String:Any] {
                 return completionHandler(nil, cachedDataDict)
             }

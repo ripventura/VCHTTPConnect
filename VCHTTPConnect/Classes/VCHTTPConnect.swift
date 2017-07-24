@@ -13,7 +13,10 @@ import Alamofire
 public let sharedConnectionManager: VCConnectionManager = VCConnectionManager()
 
 public protocol VCConnectionManagerDelegate {
-    func shouldChange(state: VCConnectionManager.ConnectionState) -> Bool
+    /** Asks the delegate if the app should enter the given ConnectionState */
+    func shouldEnter(state: VCConnectionManager.ConnectionState) -> Bool
+    /** Tells the delegate the app entered the given ConnectionState */
+    func didEnter(state: VCConnectionManager.ConnectionState) -> Void
 }
 
 /** Responsible for managing the active ConnectionState used on Datastore loading. */
@@ -22,32 +25,20 @@ open class VCConnectionManager {
         case online, offline
     }
     
-    let connectionDidEnterOfflineNotification: Notification.Name = Notification.Name.init("VCConnectionManager_didEnter_Offline")
-    let connectionDidEnterOnlineNotification: Notification.Name = Notification.Name.init("VCConnectionManager_didEnter_Online")
-    
-    open var activeConnection: ConnectionState = .online
+    open var state: ConnectionState = .online
     open var delegate: VCConnectionManagerDelegate?
     
-    init() {
+    public init() {
         
     }
     
-    func updateActiveConnection(state: ConnectionState) -> Void {
+    open func updateActiveConnection(state: ConnectionState) -> Void {
         if let delegate = self.delegate {
-            if delegate.shouldChange(state: state) {
-                self.activeConnection = state
-                self.postConnectionTypeNotification()
+            if delegate.shouldEnter(state: state) {
+                self.state = state
+                
+                self.delegate?.didEnter(state: self.state)
             }
-        }
-    }
-    
-    /** Notifies about the activeConnection state change */
-    func postConnectionTypeNotification() -> Void {
-        if self.activeConnection == .online {
-            NotificationCenter.default.post(Notification(name: self.connectionDidEnterOnlineNotification))
-        }
-        else if self.activeConnection == .offline {
-            NotificationCenter.default.post(Notification(name: self.connectionDidEnterOfflineNotification))
         }
     }
 }
@@ -210,18 +201,18 @@ open class VCHTTPConnect {
     internal func verifyOnlineConnection(response: HTTPResponse) -> Void {
         if let statusCode = response.statusCode {
             if statusCode >= 500 && statusCode <= 599 {
-                if sharedConnectionManager.activeConnection != .offline {
+                if sharedConnectionManager.state != .offline {
                     sharedConnectionManager.updateActiveConnection(state: .offline)
                 }
             }
             else {
-                if sharedConnectionManager.activeConnection != .online {
+                if sharedConnectionManager.state != .online {
                     sharedConnectionManager.updateActiveConnection(state: .online)
                 }
             }
         }
         else {
-            if sharedConnectionManager.activeConnection != .offline {
+            if sharedConnectionManager.state != .offline {
                 sharedConnectionManager.updateActiveConnection(state: .offline)
             }
         }
