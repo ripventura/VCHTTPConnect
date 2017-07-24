@@ -10,7 +10,7 @@ import UIKit
 import VCSwiftToolkit
 import ObjectMapper
 
-let sharedCacheManager: VCCacheManager = VCCacheManager()
+public let sharedCacheManager: VCCacheManager = VCCacheManager()
 
 /** Stores and retrieves data from local storage. */
 open class VCCacheManager {
