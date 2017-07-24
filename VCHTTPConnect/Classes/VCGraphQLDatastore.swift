@@ -77,7 +77,9 @@ open class VCGraphQLDatastore: NSObject {
             // If the ConnectionManager is in Offline mode
         else {
             // Returns any stored cached version
-            return completionHandler(nil, sharedCacheManager.retrieve(type: .dictionary, key: query) as? [String:Any])
+            return cacheKey != nil ?
+                completionHandler(nil, sharedCacheManager.retrieve(type: .json, key: cacheKey!) as? [String:Any]) :
+                completionHandler(nil, nil)
         }
     }
     
