@@ -12,13 +12,6 @@ import Alamofire
 /** Shared VCConnectionManager. Update it's activeConnection to swap between online and offline mode. */
 public let sharedConnectionManager: VCConnectionManager = VCConnectionManager()
 
-public protocol VCConnectionManagerDelegate {
-    /** Asks the delegate if the app should enter the given ConnectionState */
-    func shouldEnter(state: VCConnectionManager.ConnectionState) -> Bool
-    /** Tells the delegate the app entered the given ConnectionState */
-    func didEnter(state: VCConnectionManager.ConnectionState) -> Void
-}
-
 /** Responsible for managing the active ConnectionState used on Datastore loading. */
 open class VCConnectionManager {
     public enum ConnectionState {
@@ -26,20 +19,14 @@ open class VCConnectionManager {
     }
     
     open var state: ConnectionState = .online
-    open var delegate: VCConnectionManagerDelegate?
     
     public init() {
         
     }
     
-    open func updateActiveConnection(state: ConnectionState) -> Void {
-        if let delegate = self.delegate {
-            if delegate.shouldEnter(state: state) {
-                self.state = state
-                
-                self.delegate?.didEnter(state: self.state)
-            }
-        }
+    /** Verifies if the app has Internet Connection */
+    open func checkConnectivity() -> Bool {
+        return NetworkReachabilityManager()!.isReachable
     }
 }
 
@@ -164,8 +151,6 @@ open class VCHTTPConnect {
                                             let httpResponse = HTTPResponse(response: response)
                                             
                                             handler(response.result.isSuccess, httpResponse)
-                                            
-                                            self.verifyOnlineConnection(response: httpResponse)
         }
         
         self.request?.resume()
@@ -188,33 +173,8 @@ open class VCHTTPConnect {
                 let httpResponse = HTTPResponse(response: response)
                 
                 handler(response.result.isSuccess, httpResponse)
-                
-                self.verifyOnlineConnection(response: httpResponse)
         }
         
         self.request?.resume()
-    }
-    
-    // MARK: - Helpers
-    
-    /** Verifies if the connection was lost because of internet being offline, posting a notification about offline mode. */
-    internal func verifyOnlineConnection(response: HTTPResponse) -> Void {
-        if let statusCode = response.statusCode {
-            if statusCode >= 500 && statusCode <= 599 {
-                if sharedConnectionManager.state != .offline {
-                    sharedConnectionManager.updateActiveConnection(state: .offline)
-                }
-            }
-            else {
-                if sharedConnectionManager.state != .online {
-                    sharedConnectionManager.updateActiveConnection(state: .online)
-                }
-            }
-        }
-        else {
-            if sharedConnectionManager.state != .offline {
-                sharedConnectionManager.updateActiveConnection(state: .offline)
-            }
-        }
     }
 }
