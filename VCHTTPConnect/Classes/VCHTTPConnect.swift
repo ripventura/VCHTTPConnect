@@ -18,7 +18,15 @@ open class VCConnectionManager {
         case online, offline
     }
     
-    open var state: ConnectionState = .online
+    public enum ConnectionNotification: String {
+        case stateChanged = "VCConnectionManagerStateChangedNotification"
+    }
+    
+    open var state: ConnectionState = .online {
+        didSet {
+            NotificationCenter.default.post(name: Notification.Name.init(rawValue: ConnectionNotification.stateChanged.rawValue), object: nil, userInfo: nil)
+        }
+    }
     
     public init() {
         
