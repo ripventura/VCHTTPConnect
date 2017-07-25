@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import VCSwiftToolkit
 
 /** Shared GraphQL settings used on GraphQL calls.
  Update this everytime it's needed (after Auth, for exemple). */
@@ -52,22 +53,17 @@ open class VCGraphQLDatastore: NSObject {
         // If the ConnectionManager is in Online mode
         if sharedConnectionManager.state == .online {
             self.setupConnector(query: query, variables: variables)
+            
             self.connector?.post(path: "", handler: {success, response in
                 var dataDict: [String:Any]?
                 
                 if success {
-                    do {
-                        let jsonObject: [String:Any]? = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [String:Any]
-                        
-                        dataDict = jsonObject?["data"] as? [String:Any]
-                        
-                        // If this Datastore is set to cache data and a Key was provided
-                        if self.isCachingEnabled && cacheKey != nil {
-                            // Caches data (overriding any existing content)
-                            print("Cache for " + cacheKey! + ":", sharedCacheManager.cache(type: .json, content: dataDict as Any, key: cacheKey!).success)
-                        }
-                    }
-                    catch {
+                    dataDict = (response.data?.vcAnyFromJSON() as? [String:Any])?["data"] as? [String:Any]
+                    
+                    // If this Datastore is set to cache data and a Key was provided
+                    if self.isCachingEnabled && cacheKey != nil {
+                        // Caches data (overriding any existing content)
+                        print("Cache for " + cacheKey! + ":", sharedCacheManager.cache(type: .json, content: dataDict as Any, key: cacheKey!).success)
                     }
                 }
                 
@@ -86,6 +82,7 @@ open class VCGraphQLDatastore: NSObject {
     // MARK: - Mutation
     
     /** Performs a Mutation on the Datastore with the given Query and Variables.
+     Mutations cannot be cached.
      - Parameters:
      - query: The Query to be made.
      - variables: Optional dictionary of variables for this Query.
