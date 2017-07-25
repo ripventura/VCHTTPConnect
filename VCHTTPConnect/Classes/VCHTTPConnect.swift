@@ -32,12 +32,14 @@ open class VCConnectionManager {
         
     }
     
-    /** Verifies if the app has Internet Connection */
+    /** Verifies if the device has Internet Connection */
     open func checkConnectivity(completion: @escaping ((Bool) -> Void)) -> Void {
         if NetworkReachabilityManager()!.isReachable {
-            let connector = VCHTTPConnect(url: "www.google.com")
-            connector.get(path: "", handler: {success, response in
-                completion(success)
+            let connector = VCHTTPConnect(url: "https://www.google.com",
+                                          parameters: [:],
+                                          headers: ["Cache-Control":"no-cache"])
+            connector.get(path: "", handler: {_, response in
+                completion(response.statusCode == 200)
             })
         }
         else {
