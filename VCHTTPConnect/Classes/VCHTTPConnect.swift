@@ -33,8 +33,16 @@ open class VCConnectionManager {
     }
     
     /** Verifies if the app has Internet Connection */
-    open func checkConnectivity() -> Bool {
-        return NetworkReachabilityManager()!.isReachable
+    open func checkConnectivity(completion: @escaping ((Bool) -> Void)) -> Void {
+        if NetworkReachabilityManager()!.isReachable {
+            let connector = VCHTTPConnect(url: "www.google.com")
+            connector.get(path: "", handler: {success, response in
+                completion(success)
+            })
+        }
+        else {
+            completion(false)
+        }
     }
 }
 
