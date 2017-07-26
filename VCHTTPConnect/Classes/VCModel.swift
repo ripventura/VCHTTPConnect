@@ -10,8 +10,12 @@ import Foundation
 import ObjectMapper
 import VCSwiftToolkit
 
-/** Mappable Model with built-in persistable function. */
-open class VCPersistableModel: Mappable {
+open class VCEntityModel: Mappable {
+    /** Wheter or not this Model should be persistable */
+    public var persistable: Bool = false
+    
+    /** This model unique Id */
+    public var modelId: String?
     
     // MARK: - ObjectMapper
     
@@ -20,38 +24,13 @@ open class VCPersistableModel: Mappable {
     }
     
     open func mapping(map: Map) {
-        
-    }
-    
-    // MARK: - Persistable
-    
-    /** Persists this model locally using the given unique Key string. */
-    open func persist(key: String) -> VCOperationResult {
-        return sharedCacheManager.cache(type: .json, content: self.toJSON(), key: key)
-    }
-}
-
-/** VCPersistableModel holding a modelId as unique identifier. */
-open class VCEntityModel: VCPersistableModel {
-    
-    /* This model unique Id */
-    public var modelId: String?
-    
-    // MARK: - ObjectMapper
-
-    open override func mapping(map: Map) {
         self.modelId <- map["id"]
     }
     
     // MARK: - Persistable
     
-    /** Persists this model locally using the modelId as Key string. */
+    /** Persists the Model on the local Database */
     open func persist() -> VCOperationResult {
-        if let key = self.modelId {
-            return self.persist(key: key)
-        }
-        else {
-            return VCOperationResult(success: false, error: nil)
-        }
+        return sharedDatabase.insert(model: self)
     }
 }

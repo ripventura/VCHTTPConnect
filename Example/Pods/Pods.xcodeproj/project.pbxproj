@@ -14,6 +14,7 @@
 		10EB23E9ECC4B33E16933BB1EA560B6A /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7746E48D022D9E4B0FBE80100F2C6B /* Timeline.swift */; };
 		12EF25578B49A115595FDFCCF1B4EDD0 /* ISO8601DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1907FE608D8C622E0CA57511124CF4F1 /* ISO8601DateTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		17C027DC49CAB07667B2C7080D5A069D /* VCToolkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42713B02E57349B070DF0D120482C268 /* VCToolkit.swift */; };
+		1847FC7B1F2927430025941A /* VCDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1847FC7A1F2927430025941A /* VCDatabase.swift */; };
 		191223246695B518ECCF7206E518725B /* URLTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E5B937DA3B0024AE9EA6E4A122FBCC /* URLTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B9EDEDC964E6B08F78920B4F4B9DB84 /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D225BBF6883B4917E46DD76F1DFB03 /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24F227DE9C55F834FF0E595F1D5DB796 /* VCGraphQLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3547AF3814D77F8C21DA4B5C898914E /* VCGraphQLModel.swift */; };
@@ -173,6 +174,7 @@
 		10273640807A5FFB12E38AB4617487EB /* VCSwiftToolkit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VCSwiftToolkit-umbrella.h"; sourceTree = "<group>"; };
 		15707AB6DAE3BD45A75FD09D94936B7B /* QRCode.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = QRCode.xcconfig; sourceTree = "<group>"; };
 		16281120D1B9DABE02F8029A0467959E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1847FC7A1F2927430025941A /* VCDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCDatabase.swift; sourceTree = "<group>"; };
 		1907FE608D8C622E0CA57511124CF4F1 /* ISO8601DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ISO8601DateTransform.swift; path = Sources/ISO8601DateTransform.swift; sourceTree = "<group>"; };
 		1BCB65A46D0B2917C9903A05C8D7C721 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20172DEF58DDA2ECF45548B5A6FFF429 /* VCGraphQLDatastore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VCGraphQLDatastore.swift; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				008EAE4A6B2DF5781C107CDC31A12868 /* VCCacheManager.swift */,
+				1847FC7A1F2927430025941A /* VCDatabase.swift */,
 				AA6ADE83EF019F1C8D3F9E4EF6CC1950 /* VCModel.swift */,
 				F3547AF3814D77F8C21DA4B5C898914E /* VCGraphQLModel.swift */,
 				20172DEF58DDA2ECF45548B5A6FFF429 /* VCGraphQLDatastore.swift */,
@@ -939,6 +942,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1847FC7B1F2927430025941A /* VCDatabase.swift in Sources */,
 				94A4FA33B4035EFFD26DCE4B79BDC3EB /* VCCacheManager.swift in Sources */,
 				42447DACEFA636314E41DC809F29E40A /* VCModel.swift in Sources */,
 				3AAFE6566DE5D39283220F27F5C6C3D8 /* VCGraphQLDatastore.swift in Sources */,

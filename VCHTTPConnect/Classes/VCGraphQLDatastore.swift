@@ -27,7 +27,9 @@ open class VCGraphQLDatastore: NSObject {
     /** Connector used on HTTP Requests */
     public var connector: VCHTTPConnect?
     
-    /** Wheter or not data should be cached after a successfull connection */
+    /** Wheter or not data should be cached after a successfull connection.
+     CacheKey is also need for caching to occur.
+     */
     public var isCachingEnabled: Bool = true
     
     // MARK: - Overridable
