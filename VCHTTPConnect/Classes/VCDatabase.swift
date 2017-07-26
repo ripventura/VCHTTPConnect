@@ -18,36 +18,47 @@ open class VCDatabase {
         self.prepareStructure()
     }
     
-    /** Inserts the model on the Database */
-    open func insert(model: VCEntityModel, replace: Bool = true) -> VCOperationResult {
+    /** Inserts a model on a given Table. */
+    open func insert(model: VCEntityModel, table: String, replace: Bool = true) -> VCOperationResult {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.entityFolderName(model: model))
+                                                  folderName: self.entityFolderName(table: table))
         
         if let modelId = model.modelId {
             return VCFileManager.writeJSON(json: model.toJSON(),
                                            fileName: modelId,
                                            fileExtension: "json",
                                            directory: .library,
-                                           customFolder: self.entityFolderName(model: model),
+                                           customFolder: self.entityFolderName(table: table),
                                            replaceExisting: replace)
         }
         
         return VCOperationResult(success: false, error: nil)
     }
     
-    /** Selects models from the Database, based on the class of the reference model */
-    open func select(referenceModel: VCEntityModel,
+    /** Batch Inserts an Array of models on a given Table. */
+    open func batchInsert(models: [VCEntityModel], table: String, replace: Bool = true) -> [VCOperationResult] {
+        var results: [VCOperationResult] = []
+        
+        for model in models {
+            results.append(self.insert(model: model, table: table, replace: replace))
+        }
+        
+        return results
+    }
+    
+    /** Selects models from a given Table. */
+    open func select(table: String,
                      instantiate: (([String:Any]) -> VCEntityModel?),
                      filter: ((VCEntityModel) -> Bool)) -> [VCEntityModel] {
         var entities: [VCEntityModel] = []
         
         // Lists all the files on this Database folder
-        for fileName in VCFileManager.listFilesInDirectory(directory: .library, customFolder: self.entityFolderName(model: referenceModel)) {
+        for fileName in VCFileManager.listFilesInDirectory(directory: .library, customFolder: self.entityFolderName(table: table)) {
             // If the file is JSON
             if let jsonEntity = VCFileManager.readJSON(fileName: fileName as! String,
                                                        fileExtension: "",
                                                        directory: .library,
-                                                       customFolder: self.entityFolderName(model: referenceModel)) as? [String:Any] {
+                                                       customFolder: self.entityFolderName(table: table)) as? [String:Any] {
                 // If the instatiation was successfull
                 if let entity = instantiate(jsonEntity) {
                     // Appends the entity
@@ -75,7 +86,7 @@ open class VCDatabase {
         return "VCDatabase"
     }
     
-    private func entityFolderName(model: VCEntityModel) -> String {
-        return self.databaseFolderName() + "/" + String(describing: model)
+    private func entityFolderName(table: String) -> String {
+        return self.databaseFolderName() + "/" + table
     }
 }
