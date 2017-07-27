@@ -29,8 +29,12 @@ open class VCDatabase {
         self.prepareStructure()
     }
     
+    // MARK: - INSERT
+    
     /** Inserts a model on a given Table. */
-    open func insert(model: VCEntityModel, table: Table, replace: Bool = true) -> VCOperationResult {
+    open func insert(model: VCEntityModel,
+                     table: Table,
+                     replace: Bool = true) -> VCOperationResult {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
                                                   folderName: self.entityFolderName(table: table))
         
@@ -47,7 +51,9 @@ open class VCDatabase {
     }
     
     /** Batch Inserts an Array of models on a given Table. */
-    open func batchInsert(models: [VCEntityModel], table: Table, replace: Bool = true) -> [VCOperationResult] {
+    open func batchInsert(models: [VCEntityModel],
+                          table: Table,
+                          replace: Bool = true) -> [VCOperationResult] {
         var results: [VCOperationResult] = []
         
         for model in models {
@@ -56,6 +62,8 @@ open class VCDatabase {
         
         return results
     }
+    
+    // MARK: - SELECT
     
     /** Selects models from a given Table. */
     open func select(table: Table,
@@ -84,6 +92,44 @@ open class VCDatabase {
         })
         
         return entities
+    }
+    
+    // MARK: - DELETE
+    
+    /** Deletes a model by ID on a given Table. */
+    open func delete(modelId: String,
+                     table: Table,
+                     replace: Bool = true) -> VCOperationResult {
+        return VCFileManager.deleteFile(fileName: modelId,
+                                        fileExtension: "json",
+                                        directory: .library,
+                                        customFolder: self.entityFolderName(table: table))
+    }
+    
+    /** Batch Deletes models on a given Table. */
+    open func batchDelete(condition: (([String:Any]) -> Bool),
+                          table: Table,
+                          replace: Bool = true) -> [VCOperationResult] {
+        var results: [VCOperationResult] = []
+        var toBeDeleted: [String] = []
+        
+        // Loops all files on the given Table
+        for fileName in VCFileManager.listFilesInDirectory(directory: .library, customFolder: self.entityFolderName(table: table)) {
+            // If this file is a JSON
+            if let json = VCFileManager.readJSON(fileName: fileName as! String, fileExtension: "", directory: .library, customFolder: self.entityFolderName(table: table)) as? [String:Any] {
+                // If this JSON represents a model that should be deleted
+                if condition(json) {
+                    toBeDeleted.append(fileName as! String)
+                }
+            }
+        }
+        
+        // Removes all the flagged files
+        for fileName in toBeDeleted {
+            results.append(VCFileManager.deleteFile(fileName: fileName, fileExtension: "", directory: .library, customFolder: self.entityFolderName(table: table)))
+        }
+        
+        return results
     }
     
     // MARK: - Internal
