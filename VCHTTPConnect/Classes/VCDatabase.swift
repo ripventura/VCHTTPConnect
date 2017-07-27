@@ -98,8 +98,7 @@ open class VCDatabase {
     
     /** Deletes a model by ID on a given Table. */
     open func delete(modelId: String,
-                     table: Table,
-                     replace: Bool = true) -> VCOperationResult {
+                     table: Table) -> VCOperationResult {
         return VCFileManager.deleteFile(fileName: modelId,
                                         fileExtension: "json",
                                         directory: .library,
@@ -108,8 +107,7 @@ open class VCDatabase {
     
     /** Batch Deletes models on a given Table. */
     open func batchDelete(condition: (([String:Any]) -> Bool),
-                          table: Table,
-                          replace: Bool = true) -> [VCOperationResult] {
+                          table: Table) -> [VCOperationResult] {
         var results: [VCOperationResult] = []
         var toBeDeleted: [String] = []
         
