@@ -130,6 +130,11 @@ open class VCDatabase {
         return results
     }
     
+    /** Deletes a given Table. */
+    open func delete(table: Table) -> VCOperationResult {
+        return VCFileManager.deleteDirectory(directory: .library, customFolder: self.entityFolderName(table: table))
+    }
+    
     // MARK: - Internal
     
     private func prepareStructure() -> Void {
