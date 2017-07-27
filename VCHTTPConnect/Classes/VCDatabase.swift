@@ -13,13 +13,19 @@ import ObjectMapper
 public let sharedDatabase: VCDatabase = VCDatabase()
 
 open class VCDatabase {
+    public struct Table {
+        /** The name of the Table */
+        public let name: String
+        /** An optional key used to differ the content of this Table to the content of other Tables with the same Name */
+        public var key: String?
+    }
     
     init() {
         self.prepareStructure()
     }
     
     /** Inserts a model on a given Table. */
-    open func insert(model: VCEntityModel, table: String, replace: Bool = true) -> VCOperationResult {
+    open func insert(model: VCEntityModel, table: Table, replace: Bool = true) -> VCOperationResult {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
                                                   folderName: self.entityFolderName(table: table))
         
@@ -36,7 +42,7 @@ open class VCDatabase {
     }
     
     /** Batch Inserts an Array of models on a given Table. */
-    open func batchInsert(models: [VCEntityModel], table: String, replace: Bool = true) -> [VCOperationResult] {
+    open func batchInsert(models: [VCEntityModel], table: Table, replace: Bool = true) -> [VCOperationResult] {
         var results: [VCOperationResult] = []
         
         for model in models {
@@ -47,7 +53,7 @@ open class VCDatabase {
     }
     
     /** Selects models from a given Table. */
-    open func select(table: String,
+    open func select(table: Table,
                      instantiate: (([String:Any]) -> VCEntityModel?),
                      filter: ((VCEntityModel) -> Bool)) -> [VCEntityModel] {
         var entities: [VCEntityModel] = []
@@ -86,7 +92,7 @@ open class VCDatabase {
         return "VCDatabase"
     }
     
-    private func entityFolderName(table: String) -> String {
-        return self.databaseFolderName() + "/" + table
+    private func entityFolderName(table: Table) -> String {
+        return self.databaseFolderName() + "/" + table.name + (table.key ?? "")
     }
 }
