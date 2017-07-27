@@ -31,6 +31,6 @@ open class VCEntityModel: Mappable {
     
     /** Persists the Model on the local Database */
     open func persist() -> VCOperationResult {
-        return sharedDatabase.insert(model: self, table: String(describing: self))
+        return sharedDatabase.insert(model: self, table: VCDatabase.Table(name: String(describing: self), key: nil))
     }
 }
