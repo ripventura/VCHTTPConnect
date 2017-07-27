@@ -18,9 +18,14 @@ open class VCDatabase {
         public let name: String
         /** An optional key used to differ the content of this Table to the content of other Tables with the same Name */
         public var key: String?
+        
+        public init(name: String, key: String?) {
+            self.name = name
+            self.key = key
+        }
     }
     
-    init() {
+    public init() {
         self.prepareStructure()
     }
     
