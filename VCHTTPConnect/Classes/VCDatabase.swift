@@ -42,7 +42,7 @@ open class VCDatabase {
     /** Inserts a model on a given Table. */
     open func insert(model: VCEntityModel,
                      table: Table) -> VCOperationResult {
-
+        
         return self.batchInsert(models: [model], table: table)
     }
     
@@ -89,7 +89,7 @@ open class VCDatabase {
                 }
             }
         }
-
+        
         // Saves the Table
         return self.save(table: table, models: tableModels)
     }
@@ -118,6 +118,20 @@ open class VCDatabase {
         })
         
         return models
+    }
+    
+    /** Selects a model by modelId from a given Table. */
+    open func select(modelId: String,
+                     table: ParserTable) -> VCEntityModel? {
+        // Loads the Table models
+        var models: [VCEntityModel] = self.retrieve(table: table)
+        
+        // Filters all the models
+        models = models.filter({model in
+            return model.modelId == modelId
+        })
+        
+        return models.first
     }
     
     // MARK: - DELETE
@@ -199,7 +213,7 @@ open class VCDatabase {
         return []
         
     }
-
+    
     /** Retrieves an array of models from a Table */
     internal func retrieve(table: ParserTable) -> [VCEntityModel] {
         // Loads the Table
@@ -217,7 +231,7 @@ open class VCDatabase {
     }
 }
 
-/** Simulation of Database models run on RAM for performance improvements. 
+/** Simulation of Database models run on RAM for performance improvements.
  Changes made on this Database must be commited, otherwise will be discarded. */
 open class VCVirtualDatabase: VCDatabase {
     open let table: ParserTable
@@ -239,11 +253,22 @@ open class VCVirtualDatabase: VCDatabase {
         self.models = sharedDatabase.select(table: self.table)
     }
     
+    /** Clears the models */
+    open func clear() -> Void {
+        self.models = []
+    }
+    
     /// VCDatabase
     
     @available(*, unavailable, message:"Cannot delete a local Table from a Virtual Database")
     open override func delete(table: VCDatabase.Table) -> VCOperationResult {
         return VCOperationResult(success: false, error: nil)
+    }
+    
+    open override func batchInsert(models: [VCEntityModel], table: VCDatabase.Table) -> VCOperationResult {
+        self.models.append(contentsOf: models)
+        
+        return VCOperationResult(success: true, error: nil)
     }
     
     /// VCDatabase - Internal

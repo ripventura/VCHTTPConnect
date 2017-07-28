@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'VCHTTPConnect'
-  s.version          = '0.0.41'
+  s.version          = '0.0.42'
   s.summary          = 'Awesome and simple way to make HTTP connections on iOS using Swift 3.'
 
 # This description is used to generate tags and improve search results.
