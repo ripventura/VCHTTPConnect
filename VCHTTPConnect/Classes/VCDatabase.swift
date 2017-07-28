@@ -91,14 +91,24 @@ open class VCDatabase {
         }
 
         // Saves the Table
-        return self.save(table: table, models: models)
+        return self.save(table: table, models: tableModels)
+    }
+    
+    // MARK: - REPLACE
+    
+    /** Replaces a given Table content with the new models. */
+    open func replace(models: [VCEntityModel],
+                      table: Table) -> VCOperationResult {
+        _ = self.delete(table: table)
+        
+        return self.batchInsert(models: models, table: table)
     }
     
     // MARK: - SELECT
     
     /** Selects models from a given Table. */
     open func select(table: ParserTable,
-                     filter: ((VCEntityModel) -> Bool)) -> [VCEntityModel] {
+                     filter: ((VCEntityModel) -> Bool) = {_ in return true}) -> [VCEntityModel] {
         // Loads the Table models
         var models: [VCEntityModel] = self.retrieve(table: table)
         
@@ -149,7 +159,7 @@ open class VCDatabase {
     
     // MARK: - Internal
     
-    private func prepareStructure() -> Void {
+    internal func prepareStructure() -> Void {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
                                                   folderName: self.databaseName)
     }
@@ -204,5 +214,61 @@ open class VCDatabase {
         }
         
         return models
+    }
+}
+
+/** Simulation of Database models run on RAM for performance improvements. 
+ Changes made on this Database must be commited, otherwise will be discarded. */
+open class VCVirtualDatabase: VCDatabase {
+    open let table: ParserTable
+    open var models: [VCEntityModel] = []
+    
+    required public init(table: ParserTable) {
+        self.table = table
+        super.init()
+        self.reset()
+    }
+    
+    /** Commits the models on the local Database */
+    open func commit() -> VCOperationResult {
+        return sharedDatabase.replace(models: self.models, table: self.table)
+    }
+    
+    /** Resets the models, loading them from the local Database */
+    open func reset() -> Void {
+        self.models = sharedDatabase.select(table: self.table)
+    }
+    
+    /// VCDatabase
+    
+    @available(*, unavailable, message:"Cannot delete a local Table from a Virtual Database")
+    open override func delete(table: VCDatabase.Table) -> VCOperationResult {
+        return VCOperationResult(success: false, error: nil)
+    }
+    
+    /// VCDatabase - Internal
+    
+    override func prepareStructure() {
+        return
+    }
+    
+    @available(*, unavailable, message:"Virtual Database works directly with models. Try the other save method.")
+    override func save(table: VCDatabase.Table, entities: NSArray) -> VCOperationResult {
+        return VCOperationResult(success: false, error: nil)
+    }
+    
+    override func save(table: VCDatabase.Table, models: [VCEntityModel]) -> VCOperationResult {
+        self.models = models
+        
+        return VCOperationResult(success: true, error: nil)
+    }
+    
+    @available(*, unavailable, message:"Virtual Database works directly with models. Try the other retrieve method.")
+    override func retrieve(table: VCDatabase.Table) -> [String] {
+        return []
+    }
+    
+    override func retrieve(table: VCDatabase.ParserTable) -> [VCEntityModel] {
+        return self.models
     }
 }
