@@ -13,22 +13,21 @@ import ObjectMapper
 public let sharedDatabase: VCDatabase = VCDatabase()
 
 open class VCDatabase {
-    public struct Table {
-        /** The name of the Table */
-        public let name: String
-        /** An optional key used to differ the content of this Table to the content of other Tables with the same Name */
-        public var key: String?
+    open class Table {
+        /** An unique key to identify this Table */
+        public var key: String
+        
+        public init(key: String) {
+            self.key = key
+        }
+    }
+    open class ParserTable: Table {
         /** Initializer used to parse JSON string to model */
         public var initializer: ((String) -> VCEntityModel?)
         
-        public init(name: String, key: String?, initializer: @escaping ((String) -> VCEntityModel?)) {
-            self.name = name
-            self.key = key
+        public init(key: String, initializer: @escaping ((String) -> VCEntityModel?)) {
             self.initializer = initializer
-        }
-        
-        public func fileName() -> String {
-            return self.name + (self.key ?? "")
+            super.init(key: key)
         }
     }
     
@@ -69,7 +68,7 @@ open class VCDatabase {
     // MARK: - SELECT
     
     /** Selects models from a given Table. */
-    open func select(table: Table,
+    open func select(table: ParserTable,
                      filter: ((VCEntityModel) -> Bool)) -> [VCEntityModel] {
         // Loads the Table models
         var models: [VCEntityModel] = self.retrieve(table: table)
@@ -86,13 +85,13 @@ open class VCDatabase {
     
     /** Deletes a model by ID on a given Table. */
     open func delete(modelId: String,
-                     table: Table) -> VCOperationResult {
+                     table: ParserTable) -> VCOperationResult {
         return self.batchDelete(condition: {model in return model.modelId == modelId}, table: table)
     }
     
     /** Batch Deletes models on a given Table. */
     open func batchDelete(condition: ((VCEntityModel) -> Bool),
-                          table: Table) -> VCOperationResult {
+                          table: ParserTable) -> VCOperationResult {
         var newEntities: [String] = []
         let models: [VCEntityModel] = self.retrieve(table: table)
         
@@ -113,7 +112,7 @@ open class VCDatabase {
     
     /** Deletes a given Table. */
     open func delete(table: Table) -> VCOperationResult {
-        return VCFileManager.deleteFile(fileName: table.fileName(),
+        return VCFileManager.deleteFile(fileName: table.key,
                                         fileExtension: "plist",
                                         directory: .library,
                                         customFolder: self.databaseName)
@@ -129,7 +128,7 @@ open class VCDatabase {
     /** Saves an array of entities (String format) on the Table file */
     internal func save(table: Table, entities: NSArray) -> VCOperationResult {
         return VCFileManager.writeArray(array: entities,
-                                        fileName: table.fileName(),
+                                        fileName: table.key,
                                         fileExtension: "plist",
                                         directory: .library,
                                         customFolder: self.databaseName,
@@ -138,7 +137,7 @@ open class VCDatabase {
     
     /** Retrieves an array of entities (String format) from a Table */
     internal func retrieve(table: Table) -> [String] {
-        if let entities = VCFileManager.readArray(fileName: table.fileName(),
+        if let entities = VCFileManager.readArray(fileName: table.key,
                                                   fileExtension: "plist",
                                                   directory: .library,
                                                   customFolder: self.databaseName) {
@@ -149,7 +148,7 @@ open class VCDatabase {
     }
 
     /** Retrieves an array of models from a Table */
-    internal func retrieve(table: Table) -> [VCEntityModel] {
+    internal func retrieve(table: ParserTable) -> [VCEntityModel] {
         // Loads the Table
         let entities: [String] = self.retrieve(table: table)
         

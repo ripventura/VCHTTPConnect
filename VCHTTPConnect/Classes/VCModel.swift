@@ -26,11 +26,4 @@ open class VCEntityModel: Mappable {
     open func mapping(map: Map) {
         self.modelId <- map["id"]
     }
-    
-    // MARK: - Persistable
-    
-    /** Persists the Model on the local Database */
-    open func persist() -> VCOperationResult {
-        return sharedDatabase.insert(model: self, table: VCDatabase.Table(name: String(describing: self), key: nil, initializer: {_ in return nil}))
-    }
 }
