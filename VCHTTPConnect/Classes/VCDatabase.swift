@@ -41,16 +41,14 @@ open class VCDatabase {
     
     /** Inserts a model on a given Table. */
     open func insert(model: VCEntityModel,
-                     table: Table,
-                     replace: Bool = true) -> VCOperationResult {
+                     table: Table) -> VCOperationResult {
 
         return self.batchInsert(models: [model], table: table)
     }
     
     /** Batch Inserts an Array of models on a given Table. */
     open func batchInsert(models: [VCEntityModel],
-                          table: Table,
-                          replace: Bool = true) -> VCOperationResult {
+                          table: Table) -> VCOperationResult {
         // Loads the Table
         var entities: [String] = self.retrieve(table: table)
         
@@ -63,6 +61,37 @@ open class VCDatabase {
         
         // Saves the Table
         return self.save(table: table, entities: entities as NSArray)
+    }
+    
+    // MARK: - UPDATE
+    
+    /** Updates a model on a given Table. */
+    open func update(model: VCEntityModel,
+                     table: ParserTable) -> VCOperationResult {
+        
+        return self.batchUpdate(models: [model], table: table)
+    }
+    
+    /** Batch Updates an Array of models on a given Table. */
+    open func batchUpdate(models: [VCEntityModel],
+                          table: ParserTable) -> VCOperationResult {
+        // Loads the Table models
+        var tableModels: [VCEntityModel] = self.retrieve(table: table)
+        
+        // Loops each model to update
+        for model in models {
+            // Loops every model on the Table
+            for (index, tableModel) in tableModels.enumerated() {
+                // If they are the same
+                if model.modelId != nil && model.modelId == tableModel.modelId {
+                    // Replace
+                    tableModels[index] = model
+                }
+            }
+        }
+
+        // Saves the Table
+        return self.save(table: table, models: models)
     }
     
     // MARK: - SELECT
@@ -133,6 +162,20 @@ open class VCDatabase {
                                         directory: .library,
                                         customFolder: self.databaseName,
                                         replaceExisting: true)
+    }
+    
+    /** Saves an array of models on the Table file */
+    internal func save(table: Table, models: [VCEntityModel]) -> VCOperationResult {
+        var entities: [String] = []
+        
+        // Convert models to entities
+        for model in models {
+            if let jsonString = model.toJSONString() {
+                entities.append(jsonString)
+            }
+        }
+        
+        return self.save(table: table, entities: entities as NSArray)
     }
     
     /** Retrieves an array of entities (String format) from a Table */
