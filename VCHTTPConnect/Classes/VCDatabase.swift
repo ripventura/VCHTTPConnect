@@ -10,73 +10,66 @@ import UIKit
 import VCSwiftToolkit
 import ObjectMapper
 
-public let sharedDatabase: VCDatabase = VCDatabase()
-
 open class VCDatabase {
-    open class Table {
-        /** An unique key to identify this Table */
-        public var key: String
+    open class Metadata: Mappable {
+        open var referenceDate: Date?
         
-        public init(key: String) {
-            self.key = key
+        public required init?(map: Map) {
+            
         }
-    }
-    open class ParserTable: Table {
-        /** Initializer used to parse JSON string to model */
-        public var initializer: ((String) -> VCEntityModel?)
         
-        public init(key: String, initializer: @escaping ((String) -> VCEntityModel?)) {
-            self.initializer = initializer
-            super.init(key: key)
+        public func mapping(map: Map) {
+            self.referenceDate <- (map["referenceDate"], ISO8601DateTransform())
         }
     }
     
-    let databaseName: String = "VCDatabase"
+    private let databaseFolderName: String = "VCDatabase"
     
-    public init() {
+    open var name: String
+    open var metadata: Metadata = Metadata(JSON: [:])!
+    internal var models: [VCEntityModel] = []
+    
+    public init(name: String) {
+        self.name = name
+        
+        self.reset()
+        
         self.prepareStructure()
+    }
+    
+    /** Sub class this to initialize the desired VCEntityModel. */
+    open func modelInit(entity: String) -> VCEntityModel? {
+        return VCEntityModel(JSONString: entity)
+    }
+    
+    /** Commits this Database content to local storage. */
+    open func commit() -> VCOperationResult {
+        return self.save()
     }
     
     // MARK: - INSERT
     
     /** Inserts a model on a given Table. */
-    open func insert(model: VCEntityModel,
-                     table: Table) -> VCOperationResult {
-        
-        return self.batchInsert(models: [model], table: table)
+    open func insert(model: VCEntityModel) {
+        return self.batchInsert(models: [model])
     }
     
     /** Batch Inserts an Array of models on a given Table. */
-    open func batchInsert(models: [VCEntityModel],
-                          table: Table) -> VCOperationResult {
-        // Loads the Table
-        var entities: [String] = self.retrieve(table: table)
-        
-        // Appends the new entities
-        for model in models {
-            if let jsonString = model.toJSONString() {
-                entities.append(jsonString)
-            }
-        }
-        
-        // Saves the Table
-        return self.save(table: table, entities: entities as NSArray)
+    open func batchInsert(models: [VCEntityModel]) {
+        self.models.append(contentsOf: models)
     }
     
     // MARK: - UPDATE
     
     /** Updates a model on a given Table. */
-    open func update(model: VCEntityModel,
-                     table: ParserTable) -> VCOperationResult {
-        
-        return self.batchUpdate(models: [model], table: table)
+    open func update(model: VCEntityModel) {
+        return self.batchUpdate(models: [model])
     }
     
     /** Batch Updates an Array of models on a given Table. */
-    open func batchUpdate(models: [VCEntityModel],
-                          table: ParserTable) -> VCOperationResult {
+    open func batchUpdate(models: [VCEntityModel]) {
         // Loads the Table models
-        var tableModels: [VCEntityModel] = self.retrieve(table: table)
+        var tableModels: [VCEntityModel] = self.models
         
         // Loops each model to update
         for model in models {
@@ -90,212 +83,108 @@ open class VCDatabase {
             }
         }
         
-        // Saves the Table
-        return self.save(table: table, models: tableModels)
-    }
-    
-    // MARK: - REPLACE
-    
-    /** Replaces a given Table content with the new models. */
-    open func replace(models: [VCEntityModel],
-                      table: Table) -> VCOperationResult {
-        _ = self.delete(table: table)
-        
-        return self.batchInsert(models: models, table: table)
+        self.models = tableModels
     }
     
     // MARK: - SELECT
     
-    /** Selects models from a given Table. */
-    open func select(table: ParserTable,
-                     filter: ((VCEntityModel) -> Bool) = {_ in return true}) -> [VCEntityModel] {
-        // Loads the Table models
-        var models: [VCEntityModel] = self.retrieve(table: table)
-        
-        // Filters all the models
-        models = models.filter({model in
+    /** Selects models. */
+    open func select(filter: ((VCEntityModel) -> Bool) = {_ in return true}) -> [VCEntityModel] {
+        return self.models.filter({model in
             return filter(model)
         })
-        
-        return models
     }
     
-    /** Selects a model by modelId from a given Table. */
-    open func select(modelId: String,
-                     table: ParserTable) -> VCEntityModel? {
-        // Loads the Table models
-        var models: [VCEntityModel] = self.retrieve(table: table)
-        
-        // Filters all the models
-        models = models.filter({model in
-            return model.modelId == modelId
-        })
-        
-        return models.first
+    /** Selects a model by modelId. */
+    open func select(modelId: String) -> VCEntityModel? {
+        return self.select(filter: {model in return model.modelId == modelId}).first
     }
     
     // MARK: - DELETE
     
-    /** Deletes a model by ID on a given Table. */
-    open func delete(modelId: String,
-                     table: ParserTable) -> VCOperationResult {
-        return self.batchDelete(condition: {model in return model.modelId == modelId}, table: table)
+    /** Deletes a model by ID. */
+    open func delete(modelId: String) {
+        return self.batchDelete(condition: {model in return model.modelId == modelId})
     }
     
-    /** Batch Deletes models on a given Table. */
-    open func batchDelete(condition: ((VCEntityModel) -> Bool),
-                          table: ParserTable) -> VCOperationResult {
-        var newEntities: [String] = []
-        let models: [VCEntityModel] = self.retrieve(table: table)
-        
-        // Loads all the Models
-        for model in models {
-            // If this Model should be kept
-            if !condition(model) {
-                // Keep it
-                if let jsonString = model.toJSONString() {
-                    newEntities.append(jsonString)
-                }
-            }
-        }
-        
-        // Save the Table
-        return self.save(table: table, entities: newEntities as NSArray)
+    /** Batch Delete models. */
+    open func batchDelete(condition: ((VCEntityModel) -> Bool)) {
+        self.models = self.models.filter({model in return !condition(model)})
     }
     
-    /** Deletes a given Table. */
-    open func delete(table: Table) -> VCOperationResult {
-        return VCFileManager.deleteFile(fileName: table.key,
-                                        fileExtension: "plist",
-                                        directory: .library,
-                                        customFolder: self.databaseName)
+    // MARK: - RESET
+    
+    /** Resets this Database, reloading data from local storage. */
+    open func reset() {
+        self.clear()
+        
+        let info = self.load()
+        self.metadata = info.metadata
+        self.models = info.models
+    }
+    
+    // MARK: - REPLACE
+    
+    /** Replaces ALL the models with the new ones. */
+    open func replace(models: [VCEntityModel]) {
+        self.models = models
+    }
+    
+    // MARK: - CLEAR
+    
+    /** Clears the Database content, deleting ALL models. */
+    open func clear() {
+        self.models = []
     }
     
     // MARK: - Internal
     
-    internal func prepareStructure() -> Void {
-        _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.databaseName)
-    }
-    
-    /** Saves an array of entities (String format) on the Table file */
-    internal func save(table: Table, entities: NSArray) -> VCOperationResult {
-        return VCFileManager.writeArray(array: entities,
-                                        fileName: table.key,
-                                        fileExtension: "plist",
-                                        directory: .library,
-                                        customFolder: self.databaseName,
-                                        replaceExisting: true)
-    }
-    
     /** Saves an array of models on the Table file */
-    internal func save(table: Table, models: [VCEntityModel]) -> VCOperationResult {
-        var entities: [String] = []
-        
-        // Convert models to entities
-        for model in models {
-            if let jsonString = model.toJSONString() {
-                entities.append(jsonString)
-            }
-        }
-        
-        return self.save(table: table, entities: entities as NSArray)
+    internal func save() -> VCOperationResult {
+        return VCFileManager.writeDictionary(dictionary: [
+            "metadata": self.metadata.toJSONString()!,
+            "entities": self.models.toJSONString() ?? []
+            ],
+                                             fileName: self.name,
+                                             fileExtension: "plist",
+                                             directory: .library,
+                                             customFolder: self.databaseFolderName,
+                                             replaceExisting: true)
     }
     
-    /** Retrieves an array of entities (String format) from a Table */
-    internal func retrieve(table: Table) -> [String] {
-        if let entities = VCFileManager.readArray(fileName: table.key,
-                                                  fileExtension: "plist",
-                                                  directory: .library,
-                                                  customFolder: self.databaseName) {
-            return entities as! [String]
-        }
-        return []
-        
-    }
-    
-    /** Retrieves an array of models from a Table */
-    internal func retrieve(table: ParserTable) -> [VCEntityModel] {
+    /** Loads all the entities + metadata from a Table */
+    internal func load() -> (models: [VCEntityModel], metadata: Metadata) {
         // Loads the Table
-        let entities: [String] = self.retrieve(table: table)
+        let tableDict: [String:Any] = self.loadRaw()
+        
+        let entities: [String] = tableDict["entities"] as! [String]
         
         // Converts entities to models
         var models: [VCEntityModel] = []
         for entity in entities {
-            if let model = table.initializer(entity) {
+            if let model = self.modelInit(entity: entity) {
                 models.append(model)
             }
         }
         
-        return models
-    }
-}
-
-/** Simulation of Database models run on RAM for performance improvements.
- Changes made on this Database must be commited, otherwise will be discarded. */
-open class VCVirtualDatabase: VCDatabase {
-    open let table: ParserTable
-    open var models: [VCEntityModel] = []
-    
-    open var referenceDate: Date?
-    
-    required public init(table: ParserTable) {
-        self.table = table
-        super.init()
-        self.reset()
+        return (models, Metadata(JSON: tableDict["metadata"] as! [String:Any])!)
     }
     
-    /** Commits the models on the local Database */
-    open func commit() -> VCOperationResult {
-        return sharedDatabase.replace(models: self.models, table: self.table)
+    // MARK: - Fileprivate 
+    
+    fileprivate func prepareStructure() -> Void {
+        _ = VCFileManager.createFolderInDirectory(directory: .library,
+                                                  folderName: self.databaseFolderName)
     }
     
-    /** Resets the models, loading them from the local Database */
-    open func reset() -> Void {
-        self.models = sharedDatabase.select(table: self.table)
-    }
-    
-    /** Clears the models */
-    open func clear() -> Void {
-        self.models = []
-    }
-    
-    /// VCDatabase
-    
-    @available(*, unavailable, message:"Cannot delete a local Table from a Virtual Database")
-    open override func delete(table: VCDatabase.Table) -> VCOperationResult {
-        return VCOperationResult(success: false, error: nil)
-    }
-    
-    open override func batchInsert(models: [VCEntityModel], table: VCDatabase.Table) -> VCOperationResult {
-        self.models.append(contentsOf: models)
-        
-        return VCOperationResult(success: true, error: nil)
-    }
-    
-    /// VCDatabase - Internal
-    
-    override func prepareStructure() {
-        return
-    }
-    
-    @available(*, unavailable, message:"Virtual Database works directly with models. Try the other save method.")
-    override func save(table: VCDatabase.Table, entities: NSArray) -> VCOperationResult {
-        return VCOperationResult(success: false, error: nil)
-    }
-    
-    override func save(table: VCDatabase.Table, models: [VCEntityModel]) -> VCOperationResult {
-        self.models = models
-        
-        return VCOperationResult(success: true, error: nil)
-    }
-    
-    @available(*, unavailable, message:"Virtual Database works directly with models. Try the other retrieve method.")
-    override func retrieve(table: VCDatabase.Table) -> [String] {
-        return []
-    }
-    
-    override func retrieve(table: VCDatabase.ParserTable) -> [VCEntityModel] {
-        return self.models
+    /** Loads the raw Table dictionary */
+    fileprivate func loadRaw() -> [String:Any] {
+        if let table = VCFileManager.readDictionary(fileName: self.name,
+                                                    fileExtension: "plist",
+                                                    directory: .library,
+                                                    customFolder: self.databaseFolderName) {
+            return table as! [String:Any]
+        }
+        return [:]
     }
 }
