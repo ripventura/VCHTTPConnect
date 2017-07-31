@@ -237,6 +237,8 @@ open class VCVirtualDatabase: VCDatabase {
     open let table: ParserTable
     open var models: [VCEntityModel] = []
     
+    open var lastReset: Date?
+    
     required public init(table: ParserTable) {
         self.table = table
         super.init()
@@ -251,6 +253,7 @@ open class VCVirtualDatabase: VCDatabase {
     /** Resets the models, loading them from the local Database */
     open func reset() -> Void {
         self.models = sharedDatabase.select(table: self.table)
+        self.lastReset = Date()
     }
     
     /** Clears the models */
