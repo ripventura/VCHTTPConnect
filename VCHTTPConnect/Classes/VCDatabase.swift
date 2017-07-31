@@ -11,22 +11,9 @@ import VCSwiftToolkit
 import ObjectMapper
 
 open class VCDatabase {
-    open class Metadata: Mappable {
-        open var referenceDate: Date?
-        
-        public required init?(map: Map) {
-            
-        }
-        
-        public func mapping(map: Map) {
-            self.referenceDate <- (map["referenceDate"], ISO8601DateTransform())
-        }
-    }
-    
     private let databaseFolderName: String = "VCDatabase"
     
     open var name: String
-    open var metadata: Metadata = Metadata(JSON: [:])!
     internal var models: [VCEntityModel] = []
     
     public init(name: String) {
@@ -118,16 +105,16 @@ open class VCDatabase {
     open func reset() {
         self.clear()
         
-        let info = self.load()
-        self.metadata = info.metadata
-        self.models = info.models
+        self.models = self.load()
     }
     
     // MARK: - REPLACE
     
-    /** Replaces ALL the models with the new ones. */
-    open func replace(models: [VCEntityModel]) {
-        self.models = models
+    /** Replaces all the models matching the condition with new ones.
+     Default is ALL. */
+    open func replace(models: [VCEntityModel], condition: ((VCEntityModel) -> Bool) = {model in return true}) {
+        self.batchDelete(condition: condition)
+        self.batchInsert(models: models)
     }
     
     // MARK: - CLEAR
@@ -141,23 +128,25 @@ open class VCDatabase {
     
     /** Saves an array of models on the Table file */
     internal func save() -> VCOperationResult {
-        return VCFileManager.writeDictionary(dictionary: [
-            "metadata": self.metadata.toJSONString()!,
-            "entities": self.models.toJSONString() ?? []
-            ],
-                                             fileName: self.name,
-                                             fileExtension: "plist",
-                                             directory: .library,
-                                             customFolder: self.databaseFolderName,
-                                             replaceExisting: true)
+        var entities: [String] = []
+        for model in self.models {
+            entities.append(model.toJSONString()!)
+        }
+        
+        return VCFileManager.writeArray(array: entities as NSArray,
+                                        fileName: self.name,
+                                        fileExtension: "plist",
+                                        directory: .library,
+                                        customFolder: self.databaseFolderName,
+                                        replaceExisting: true)
     }
     
     /** Loads all the entities + metadata from a Table */
-    internal func load() -> (models: [VCEntityModel], metadata: Metadata) {
-        // Loads the Table
-        let tableDict: [String:Any] = self.loadRaw()
-        
-        let entities: [String] = tableDict["entities"] as! [String]
+    internal func load() -> [VCEntityModel] {
+        let entities: [String] = VCFileManager.readArray(fileName: self.name,
+                                                         fileExtension: "plist",
+                                                         directory: .library,
+                                                         customFolder: self.databaseFolderName) as? [String] ?? []
         
         // Converts entities to models
         var models: [VCEntityModel] = []
@@ -167,24 +156,14 @@ open class VCDatabase {
             }
         }
         
-        return (models, Metadata(JSON: tableDict["metadata"] as! [String:Any])!)
+        
+        return models
     }
     
-    // MARK: - Fileprivate 
+    // MARK: - Fileprivate
     
     fileprivate func prepareStructure() -> Void {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
                                                   folderName: self.databaseFolderName)
-    }
-    
-    /** Loads the raw Table dictionary */
-    fileprivate func loadRaw() -> [String:Any] {
-        if let table = VCFileManager.readDictionary(fileName: self.name,
-                                                    fileExtension: "plist",
-                                                    directory: .library,
-                                                    customFolder: self.databaseFolderName) {
-            return table as! [String:Any]
-        }
-        return [:]
     }
 }
