@@ -11,8 +11,6 @@ import ObjectMapper
 import VCSwiftToolkit
 
 open class VCEntityModel: Mappable {
-    /** Wheter or not this Model should be persistable */
-    public var persistable: Bool = false
     
     /** This model unique Id */
     public var modelId: String?

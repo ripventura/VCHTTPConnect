@@ -4,7 +4,7 @@ target 'VCHTTPConnect_Example' do
   pod 'VCHTTPConnect', :path => '../'
   pod 'Alamofire', '4.4'
   pod 'ObjectMapper', '2.2'
-  pod 'VCSwiftToolkit', '0.0.10'
+  pod 'VCSwiftToolkit'
   
   target 'VCHTTPConnect_Tests' do
     inherit! :search_paths
