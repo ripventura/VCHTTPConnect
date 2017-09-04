@@ -16,7 +16,6 @@
 		17C027DC49CAB07667B2C7080D5A069D /* VCToolkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42713B02E57349B070DF0D120482C268 /* VCToolkit.swift */; };
 		191223246695B518ECCF7206E518725B /* URLTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E5B937DA3B0024AE9EA6E4A122FBCC /* URLTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B9EDEDC964E6B08F78920B4F4B9DB84 /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D225BBF6883B4917E46DD76F1DFB03 /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		23634364F5DDFEF866C835DB0153ADAB /* VCHTTPConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D49090DD4E9CF2BF4F3BC5F572FB31 /* VCHTTPConnect.swift */; };
 		250D944739E95B9BFC88642DB5CEB2B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62F223ED71470B93BF3CBC12FE4F599 /* Foundation.framework */; };
 		2868717245A49E3E130B53CC1BE7C123 /* EnumOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743D2739160F87805A3BDD19BE6FA73 /* EnumOperators.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		314B9E9F909985AD40B416A0CE4D8F51 /* DateFormatterTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1E662BD81AF875743A3DD152338560 /* DateFormatterTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -35,10 +34,13 @@
 		4FDEABA45359B146DF34457AFD40CB35 /* DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3043616858224CB26057572870B5EBF5 /* DateTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		50B1CC08EE2AE1F493869C874E0AEEAA /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DB95F8691A52377FDD1C8980826DEB /* ObjectMapper.framework */; };
 		5387216E723A3C68E851CA15573CDD71 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBC2E1541F2051B25087D27C2F9B31D /* Request.swift */; };
+		5549DACC04C5D4F861C6753AE2C9DC0B /* VCHTTPConnect-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1381EC7E4D1A7C219A7450B07F9393A0 /* VCHTTPConnect-dummy.m */; };
+		5BCF7A9D4E171598A1725A79E4E01CE8 /* VCCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B2A4E47BC0D426395A0C6C64DD31FB /* VCCacheManager.swift */; };
 		61200D01A1855D7920CEF835C8BE00B0 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6602B11CC904C5395E0E60F128C960 /* DispatchQueue+Alamofire.swift */; };
 		613688BFD9F7A895E018D5250F9C7511 /* Pods-VCHTTPConnect_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E14368C459825374F053EE3C93D69BB0 /* Pods-VCHTTPConnect_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62F65AD8DC4F0F9610F4B8B4738EC094 /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5411E68A18948EBE43FEE4EFE18B6B56 /* ServerTrustPolicy.swift */; };
 		66AF4A6E43F650FE914086376A93D04F /* QRCode-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 440739F9CB48B705B574AF7560DF2DCB /* QRCode-dummy.m */; };
+		6F2BA1DD1FB0F3D5C92C05DDFAE6A828 /* VCGraphQLConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C31719CDCD45EFCFA53F7B20DD5DD1A /* VCGraphQLConnector.swift */; };
 		6F70E0DA88C61B1F755432A746E1704F /* QRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F257BD7281D3CD3891B7BA2A145234A0 /* QRCode.swift */; };
 		7183AD43047C455B682A4020359C2A5E /* CustomDateFormatTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944AF67A9B4889DDE87C20C9C7928529 /* CustomDateFormatTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		73B9C996AED49ED7CF8EC2A6F1738059 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62F223ED71470B93BF3CBC12FE4F599 /* Foundation.framework */; };
@@ -46,16 +48,13 @@
 		7B5FE28C7EA4122B0598738E54DBEBD8 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E46ACF2957341F2E89A7ECCD48335F /* SessionDelegate.swift */; };
 		7D8CC01E8C9EFFF9F4D65406CDE0AB66 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB1D76171C9F33F7E7A524629A4C30 /* Result.swift */; };
 		7F1E9E1E1B49552F24FB32C65B9FEB7A /* ToJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B79885867E3AD0471FBF85F3FC604 /* ToJSON.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		81C99D83EA64FA400515363AB47D974E /* VCEntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC48F6DBFFDF23FCD1DD86B13D8AC3 /* VCEntityModel.swift */; };
 		8332EF7E8FF75DAB0F2D22E77214397B /* CIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644070526D11CB87ABDE3218015D0761 /* CIColorExtension.swift */; };
 		848BAAA1B2BC6C053BD95CEEE4B268F5 /* VCSwiftToolkit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A67FC7FA39F6E77FA1FC08D36AA908F9 /* VCSwiftToolkit-dummy.m */; };
-		89D4B2F2168C152017D4521AE7F605D5 /* VCHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31FADBE701DD0B81AF42DDFB69DBFF5 /* VCHTTPModel.swift */; };
-		8BF9B9C33E3B03B4AE2BF2CAD36FE795 /* VCEntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51AD6B35DA081F339FC5F20E1657707 /* VCEntityModel.swift */; };
 		8CCCB597D1446368D0F8795F8624E1BA /* VCSwiftToolkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F5C3A4B53D5BE3EA94E64D7CC9B183 /* VCSwiftToolkit.framework */; };
-		9270AF3916244B2A350C706FD2B31A1C /* VCHTTPConnect-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F854B4824C037850EE7F10B8B1D78696 /* VCHTTPConnect-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9270AF3916244B2A350C706FD2B31A1C /* VCHTTPConnect-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FD6965D214E8CF6E341673333BB9A7D /* VCHTTPConnect-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9663A29E978A80886C5FA9865AEB220C /* NSDecimalNumberTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4DEAFB0A6697FA8EBB8A1C775F6A9 /* NSDecimalNumberTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		97BE084D0B70B8DAFF1A873F0BB07E85 /* VCDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2835FB67875C706CD5C81F7854098E /* VCDatabase.swift */; };
 		986B7593791EE327924B3D6AF549790E /* CIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203CE22A60DF7EADA28B550652A3A0B1 /* CIImageExtension.swift */; };
-		9894880ACE3D116597387EED0286D756 /* VCHTTPConnect-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EB8FE43A08E25ADD30047DF4033CA090 /* VCHTTPConnect-dummy.m */; };
 		9ED2BB2981896E0A39EFA365503F58CE /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3F50290F607C85DC77DF2556B38201 /* AFError.swift */; };
 		A2A6F71B727312BD45CC7A4AAD7B0AB7 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A973B577453F85DFE46A03CAC903BE /* NetworkReachabilityManager.swift */; };
 		A5014B98E0B339947198C6803DE634E8 /* DictionaryTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C454A810042FC1AB5C05054973B546 /* DictionaryTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -63,19 +62,21 @@
 		A83C9438D9D5695F8E18FB652CA9F168 /* HexColorTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5B693A042B5E84E4297050111C0DB /* HexColorTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A9EEEA7477981DEEBC72432DE9990A4B /* Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B711BA602CCDEC32D2DBF6B44DCCCA6 /* Alamofire-dummy.m */; };
 		AC7C5974C0184FEA7E73A04DCD8484CD /* QRCode-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 60C764EFA5020AD68362D81DB1B14055 /* QRCode-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACB55409BFB96B76622904B20AFB2FB6 /* VCCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50E379D70B60C485443006C9901CAE6 /* VCCacheManager.swift */; };
 		AE1EF48399533730D0066E04B22CA2D6 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F5CA9E3F67C9924E96E059C8F4A95B /* SessionManager.swift */; };
 		B296EE157EA502F2800D958003B25659 /* QRCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1BF4FBEEC6FB57B963000CD5AC07725 /* QRCode.framework */; };
 		B3F322D2C4B88A3EE24DA8797D1F3189 /* ObjectMapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D23457D3F8A8AF3C3BF490DA689B0A /* ObjectMapper-dummy.m */; };
+		B63000E56EE0F8633944BC82E119E98F /* VCHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986C86ED828FF9F93F26703CA6A9B7E5 /* VCHTTPModel.swift */; };
 		B65FCF589DA398C3EFE0128064E510EC /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B9D64E51E0BFD3FC73AE01378E02C2 /* MultipartFormData.swift */; };
-		B729297DB8DF19EAA4BF621D5C14E79D /* VCHTTPDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076C237FA6CB471722F8E65E9F4C53C9 /* VCHTTPDatastore.swift */; };
+		BB3401F960771EE45E58175AB04BB40D /* VCHTTPDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C32D80ED3EB2874FC10A01DAD15F1B /* VCHTTPDatastore.swift */; };
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60E47C91121CAFF7BEA4B403ABC550E /* Validation.swift */; };
 		BE5C67A07E289FE1F9BE27335B159997 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B749445A494D60D4A0D042D62D4D8 /* ParameterEncoding.swift */; };
 		BF2FA64656B96E51583BA76BDBF66D4F /* TestJSON.json in Sources */ = {isa = PBXBuildFile; fileRef = 9CDC2DD3C29C02613D8E74D5F2AB6B90 /* TestJSON.json */; };
 		C7B9B9126623D2D2DAEDE5A5BCAE5649 /* Pods-VCHTTPConnect_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F7CE572D0F097753024A1F627F731 /* Pods-VCHTTPConnect_Tests-dummy.m */; };
 		CB1EEF83A75179CAD7FF21407D287A58 /* Pods-VCHTTPConnect_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9ABE21B681912B22450117E5181C1 /* Pods-VCHTTPConnect_Example-dummy.m */; };
 		CB6D60925223897FFA2662667DF83E8A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F17EF3FAEA2646A301CEC64A6D6F28 /* Response.swift */; };
+		CBB4187BDA7A85C8757A46F9369C3706 /* VCDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F717B4ED212F885DEA49F10624C925CA /* VCDatabase.swift */; };
 		CC4B1D2B0D9DCBFFBF37A34B64D4CAB1 /* QRCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1BF4FBEEC6FB57B963000CD5AC07725 /* QRCode.framework */; };
+		D43827DECD9B21D979A42A1147C06BBC /* VCHTTPConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BD369566554C790EF2F8465F4D121C /* VCHTTPConnect.swift */; };
 		DC1F12C360F2419DB390C24A7AC772D4 /* FromJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BAE9238A9BA925EB741EF88DE8A44C /* FromJSON.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDE27A4AA230EC431E4E6316A36EABC7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62F223ED71470B93BF3CBC12FE4F599 /* Foundation.framework */; };
 		E88A5FEB1E9EC7F8E112726DB93E6F38 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C2FBEF7F9A7EBAD0F8C2AA3152E3FE /* UIImageViewExtension.swift */; };
@@ -86,7 +87,6 @@
 		F6BECD98B97CBFEBE2C96F0E9E72A6C0 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473FC80B8555986DB93EDBC1FA9D62CD /* ResponseSerialization.swift */; };
 		F6EC7E4B2FA0CEF7F9A36AC4444B71DB /* TransformOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A9ABAC509D58F345D0A19F9CA3B6E3 /* TransformOperators.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F8B3D3092ED0417E8CDF32033F6122F5 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E64E1A2787D214C463159C085410D8 /* Alamofire.swift */; };
-		FB9D8378B98328E84BD7315AD9432DCC /* VCGraphQLDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03429BB074D1D6C30D9A8B80BD618E70 /* VCGraphQLDatastore.swift */; };
 		FD343AE1493B12282012280629E856C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62F223ED71470B93BF3CBC12FE4F599 /* Foundation.framework */; };
 		FEEF32367907C0D129AD9DE56F6932D5 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A59059C5C3D42BCF8511C1D632D3C /* Operators.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
@@ -165,13 +165,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03429BB074D1D6C30D9A8B80BD618E70 /* VCGraphQLDatastore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCGraphQLDatastore.swift; path = VCHTTPConnect/Classes/VCGraphQLDatastore.swift; sourceTree = "<group>"; };
+		05C32D80ED3EB2874FC10A01DAD15F1B /* VCHTTPDatastore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCHTTPDatastore.swift; path = VCHTTPConnect/Classes/VCHTTPDatastore.swift; sourceTree = "<group>"; };
 		070FBD6F02E790E6AA2210B1BB0A1B52 /* ObjectMapper-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ObjectMapper-umbrella.h"; sourceTree = "<group>"; };
-		076C237FA6CB471722F8E65E9F4C53C9 /* VCHTTPDatastore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCHTTPDatastore.swift; path = VCHTTPConnect/Classes/VCHTTPDatastore.swift; sourceTree = "<group>"; };
 		0D3F50290F607C85DC77DF2556B38201 /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
-		0E25B839E376F3390E66F2C047C6F3C4 /* VCHTTPConnect.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = VCHTTPConnect.xcconfig; sourceTree = "<group>"; };
 		0FC0C57648DFB45D614031D94E913214 /* Pods-VCHTTPConnect_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-VCHTTPConnect_Example-umbrella.h"; sourceTree = "<group>"; };
 		10273640807A5FFB12E38AB4617487EB /* VCSwiftToolkit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VCSwiftToolkit-umbrella.h"; sourceTree = "<group>"; };
+		1381EC7E4D1A7C219A7450B07F9393A0 /* VCHTTPConnect-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "VCHTTPConnect-dummy.m"; sourceTree = "<group>"; };
 		15707AB6DAE3BD45A75FD09D94936B7B /* QRCode.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = QRCode.xcconfig; sourceTree = "<group>"; };
 		16281120D1B9DABE02F8029A0467959E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1907FE608D8C622E0CA57511124CF4F1 /* ISO8601DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ISO8601DateTransform.swift; path = Sources/ISO8601DateTransform.swift; sourceTree = "<group>"; };
@@ -181,7 +180,7 @@
 		274D3542FFBA4FC819ED572ABDAC3D49 /* Pods-VCHTTPConnect_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-VCHTTPConnect_Tests-resources.sh"; sourceTree = "<group>"; };
 		27A973B577453F85DFE46A03CAC903BE /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		27DB95F8691A52377FDD1C8980826DEB /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		282BACE2D33A6A87916D30ABA089C7F0 /* Pods-VCHTTPConnect_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-VCHTTPConnect_Example.modulemap"; sourceTree = "<group>"; };
+		282BACE2D33A6A87916D30ABA089C7F0 /* Pods-VCHTTPConnect_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-VCHTTPConnect_Example.modulemap"; sourceTree = "<group>"; };
 		29D225BBF6883B4917E46DD76F1DFB03 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
 		2AF41DD95BD2D20FC7909D73BD084868 /* VCSwiftToolkit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = VCSwiftToolkit.xcconfig; sourceTree = "<group>"; };
 		2B711BA602CCDEC32D2DBF6B44DCCCA6 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
@@ -189,17 +188,19 @@
 		3043616858224CB26057572870B5EBF5 /* DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DateTransform.swift; path = Sources/DateTransform.swift; sourceTree = "<group>"; };
 		321B749445A494D60D4A0D042D62D4D8 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		396C0E4E99063F4C1BC52875CAB9574A /* TransformOf.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformOf.swift; path = Sources/TransformOf.swift; sourceTree = "<group>"; };
+		3C31719CDCD45EFCFA53F7B20DD5DD1A /* VCGraphQLConnector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCGraphQLConnector.swift; path = VCHTTPConnect/Classes/VCGraphQLConnector.swift; sourceTree = "<group>"; };
 		3F30ABAF51116FA868082B40D25D18D2 /* Pods-VCHTTPConnect_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-VCHTTPConnect_Example.release.xcconfig"; sourceTree = "<group>"; };
-		3F8BD77001EA4369FD8592231573B4C6 /* ObjectMapper.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = ObjectMapper.modulemap; sourceTree = "<group>"; };
+		3F8BD77001EA4369FD8592231573B4C6 /* ObjectMapper.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = ObjectMapper.modulemap; sourceTree = "<group>"; };
+		3FD6965D214E8CF6E341673333BB9A7D /* VCHTTPConnect-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VCHTTPConnect-umbrella.h"; sourceTree = "<group>"; };
 		42713B02E57349B070DF0D120482C268 /* VCToolkit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCToolkit.swift; path = VCSwiftToolkit/Classes/VCToolkit.swift; sourceTree = "<group>"; };
 		440739F9CB48B705B574AF7560DF2DCB /* QRCode-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "QRCode-dummy.m"; sourceTree = "<group>"; };
 		44EC6E0213FF064EC6453CFFA2A35913 /* Pods-VCHTTPConnect_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-VCHTTPConnect_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		45A5B693A042B5E84E4297050111C0DB /* HexColorTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HexColorTransform.swift; path = Sources/HexColorTransform.swift; sourceTree = "<group>"; };
+		46B2A4E47BC0D426395A0C6C64DD31FB /* VCCacheManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCCacheManager.swift; path = VCHTTPConnect/Classes/VCCacheManager.swift; sourceTree = "<group>"; };
 		473FC80B8555986DB93EDBC1FA9D62CD /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
-		47D49090DD4E9CF2BF4F3BC5F572FB31 /* VCHTTPConnect.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCHTTPConnect.swift; path = VCHTTPConnect/Classes/VCHTTPConnect.swift; sourceTree = "<group>"; };
 		47E64E1A2787D214C463159C085410D8 /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		48F67E477437B3377492E5F7BF94A83C /* VCFileManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCFileManager.swift; path = VCSwiftToolkit/Classes/VCFileManager.swift; sourceTree = "<group>"; };
-		4E020FCF4E747B0E527234BDB4A333A6 /* Pods_VCHTTPConnect_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VCHTTPConnect_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E020FCF4E747B0E527234BDB4A333A6 /* Pods_VCHTTPConnect_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_VCHTTPConnect_Example.framework; path = "Pods-VCHTTPConnect_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DCFBDF480E50FDD08CBAE37508449E /* ObjectMapper.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ObjectMapper.xcconfig; sourceTree = "<group>"; };
 		5411E68A18948EBE43FEE4EFE18B6B56 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustPolicy.swift; path = Source/ServerTrustPolicy.swift; sourceTree = "<group>"; };
 		543F7CE572D0F097753024A1F627F731 /* Pods-VCHTTPConnect_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-VCHTTPConnect_Tests-dummy.m"; sourceTree = "<group>"; };
@@ -208,10 +209,9 @@
 		56F17EF3FAEA2646A301CEC64A6D6F28 /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Response.swift; path = Source/Response.swift; sourceTree = "<group>"; };
 		5963A36A8AE04BFF0DBA13FFD5211936 /* Pods-VCHTTPConnect_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-VCHTTPConnect_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5C0D52D5D4028D2DE78070819E4CE18A /* Pods-VCHTTPConnect_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-VCHTTPConnect_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		5E4B4CB9FB3449B7B7D4E2CC12D64747 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E4B4CB9FB3449B7B7D4E2CC12D64747 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60C764EFA5020AD68362D81DB1B14055 /* QRCode-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "QRCode-umbrella.h"; sourceTree = "<group>"; };
 		61EC08AE7100D1E409AA2A1F174A7DD1 /* Pods-VCHTTPConnect_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-VCHTTPConnect_Example-resources.sh"; sourceTree = "<group>"; };
-		63035264E5125369116C03D06C28F857 /* VCHTTPConnect.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = VCHTTPConnect.modulemap; sourceTree = "<group>"; };
 		6376D0D465DB402AC4A7B2EEA3DDDCFA /* ObjectMapper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ObjectMapper-prefix.pch"; sourceTree = "<group>"; };
 		63C2FBEF7F9A7EBAD0F8C2AA3152E3FE /* UIImageViewExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIImageViewExtension.swift; path = QRCode/UIImageViewExtension.swift; sourceTree = "<group>"; };
 		644070526D11CB87ABDE3218015D0761 /* CIColorExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CIColorExtension.swift; path = QRCode/CIColorExtension.swift; sourceTree = "<group>"; };
@@ -225,44 +225,46 @@
 		7D1E196C8FCC36A17E950F45334BF618 /* VCLocaleHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCLocaleHelper.swift; path = VCSwiftToolkit/Classes/VCLocaleHelper.swift; sourceTree = "<group>"; };
 		7DDBD958B49488397B37E15A1C01764B /* Pods-VCHTTPConnect_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-VCHTTPConnect_Example-frameworks.sh"; sourceTree = "<group>"; };
 		822A59059C5C3D42BCF8511C1D632D3C /* Operators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Operators.swift; path = Sources/Operators.swift; sourceTree = "<group>"; };
-		8445A8BDB9F121F47DC01210B1E4C961 /* Pods_VCHTTPConnect_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VCHTTPConnect_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8445A8BDB9F121F47DC01210B1E4C961 /* Pods_VCHTTPConnect_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_VCHTTPConnect_Tests.framework; path = "Pods-VCHTTPConnect_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EEC6DDB4240941844C82905D95EA5F /* Pods-VCHTTPConnect_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-VCHTTPConnect_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		858EC690DBB6D7EF00AEB134E2F7FE07 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		86500986B2457F5BEEE91BC2DB0404CA /* VCSwiftToolkit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = VCSwiftToolkit.modulemap; sourceTree = "<group>"; };
-		8717930726263639592F903D9F748050 /* QRCode.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = QRCode.modulemap; sourceTree = "<group>"; };
+		86500986B2457F5BEEE91BC2DB0404CA /* VCSwiftToolkit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = VCSwiftToolkit.modulemap; sourceTree = "<group>"; };
+		8717930726263639592F903D9F748050 /* QRCode.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = QRCode.modulemap; sourceTree = "<group>"; };
 		8C52EA4E2957A424B8EE04AF220FE1CE /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90FD757BD00E515CCE579FE857CB3BCD /* VCHTTPConnect.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = VCHTTPConnect.modulemap; sourceTree = "<group>"; };
 		92060E1F12ABAA8635E4DF3CB31BE8EA /* QRCode-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "QRCode-prefix.pch"; sourceTree = "<group>"; };
-		9348EB86B08EC85ABE244C0106EECDD6 /* Pods-VCHTTPConnect_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-VCHTTPConnect_Tests.modulemap"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9348EB86B08EC85ABE244C0106EECDD6 /* Pods-VCHTTPConnect_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-VCHTTPConnect_Tests.modulemap"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		944AF67A9B4889DDE87C20C9C7928529 /* CustomDateFormatTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CustomDateFormatTransform.swift; path = Sources/CustomDateFormatTransform.swift; sourceTree = "<group>"; };
 		9644EA17C2BEF119E1CCD463963A1648 /* TransformType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformType.swift; path = Sources/TransformType.swift; sourceTree = "<group>"; };
 		973BD218472F797308250776A5535D5A /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
 		9743D2739160F87805A3BDD19BE6FA73 /* EnumOperators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumOperators.swift; path = Sources/EnumOperators.swift; sourceTree = "<group>"; };
-		9CDC2DD3C29C02613D8E74D5F2AB6B90 /* TestJSON.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; name = TestJSON.json; path = VCSwiftToolkit/Classes/TestJSON.json; sourceTree = "<group>"; };
-		9F2835FB67875C706CD5C81F7854098E /* VCDatabase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCDatabase.swift; path = VCHTTPConnect/Classes/VCDatabase.swift; sourceTree = "<group>"; };
+		986C86ED828FF9F93F26703CA6A9B7E5 /* VCHTTPModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCHTTPModel.swift; path = VCHTTPConnect/Classes/VCHTTPModel.swift; sourceTree = "<group>"; };
+		98BD369566554C790EF2F8465F4D121C /* VCHTTPConnect.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCHTTPConnect.swift; path = VCHTTPConnect/Classes/VCHTTPConnect.swift; sourceTree = "<group>"; };
+		9CDC2DD3C29C02613D8E74D5F2AB6B90 /* TestJSON.json */ = {isa = PBXFileReference; includeInIndex = 1; name = TestJSON.json; path = VCSwiftToolkit/Classes/TestJSON.json; sourceTree = "<group>"; };
 		9F414AF75CD602DDEF1EC9AE2BE43E70 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0B9D64E51E0BFD3FC73AE01378E02C2 /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
 		A3CA91C56736F08B41B26973187610CA /* Pods-VCHTTPConnect_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-VCHTTPConnect_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		A3E5B937DA3B0024AE9EA6E4A122FBCC /* URLTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLTransform.swift; path = Sources/URLTransform.swift; sourceTree = "<group>"; };
-		A50E379D70B60C485443006C9901CAE6 /* VCCacheManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCCacheManager.swift; path = VCHTTPConnect/Classes/VCCacheManager.swift; sourceTree = "<group>"; };
-		A51AD6B35DA081F339FC5F20E1657707 /* VCEntityModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCEntityModel.swift; path = VCHTTPConnect/Classes/VCEntityModel.swift; sourceTree = "<group>"; };
 		A67FC7FA39F6E77FA1FC08D36AA908F9 /* VCSwiftToolkit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "VCSwiftToolkit-dummy.m"; sourceTree = "<group>"; };
 		A6BAE9238A9BA925EB741EF88DE8A44C /* FromJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FromJSON.swift; path = Sources/FromJSON.swift; sourceTree = "<group>"; };
 		A97D22C95DCB975C03DF97E197CAE93A /* VCSwiftToolkit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VCSwiftToolkit-prefix.pch"; sourceTree = "<group>"; };
 		AC6602B11CC904C5395E0E60F128C960 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		AE0B9FCABC77B2526C7FD4FF61937D1B /* Pods-VCHTTPConnect_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-VCHTTPConnect_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		B121EE97565A4795C54637E8C9C0B8C2 /* VCHTTPConnect.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = VCHTTPConnect.xcconfig; sourceTree = "<group>"; };
 		B4BB1D76171C9F33F7E7A524629A4C30 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
 		B62F223ED71470B93BF3CBC12FE4F599 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		B95B79885867E3AD0471FBF85F3FC604 /* ToJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToJSON.swift; path = Sources/ToJSON.swift; sourceTree = "<group>"; };
-		B98928FC998B4ACC7D0BC394976ACD30 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B98928FC998B4ACC7D0BC394976ACD30 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ObjectMapper.framework; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9F5CA9E3F67C9924E96E059C8F4A95B /* SessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = Source/SessionManager.swift; sourceTree = "<group>"; };
 		BDBC2E1541F2051B25087D27C2F9B31D /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
 		BE9C586CA497DC9CBD71AD119D6BF699 /* LocalNotificationHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalNotificationHelper.swift; path = VCSwiftToolkit/Classes/LocalNotificationHelper.swift; sourceTree = "<group>"; };
 		C423CDC24E82F7C9BCFF926C410C8080 /* DataTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataTransform.swift; path = Sources/DataTransform.swift; sourceTree = "<group>"; };
 		C9B5EF2E02B9C19F837407B814DB71D8 /* Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = VCSwiftToolkit/Classes/Extensions.swift; sourceTree = "<group>"; };
 		C9F5C3A4B53D5BE3EA94E64D7CC9B183 /* VCSwiftToolkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VCSwiftToolkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4086F4B767622F460FB7AE1B197B058 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Alamofire.modulemap; sourceTree = "<group>"; };
+		CDCC48F6DBFFDF23FCD1DD86B13D8AC3 /* VCEntityModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCEntityModel.swift; path = VCHTTPConnect/Classes/VCEntityModel.swift; sourceTree = "<group>"; };
+		D4086F4B767622F460FB7AE1B197B058 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Alamofire.modulemap; sourceTree = "<group>"; };
 		D5A9ABAC509D58F345D0A19F9CA3B6E3 /* TransformOperators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformOperators.swift; path = Sources/TransformOperators.swift; sourceTree = "<group>"; };
+		D6EAC4A83B97A1A87210BB09DA555E98 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D83007F702E35133C3DB8E893A834C0B /* Pods-VCHTTPConnect_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-VCHTTPConnect_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		DB75027A35FC7AEBA7B18399E2C6CFFB /* Mapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Mapper.swift; path = Sources/Mapper.swift; sourceTree = "<group>"; };
 		DCC9F453AFDE207DB4E3BB19DEF2EB12 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -270,20 +272,18 @@
 		E37811B984891A8D66CEF5E1E4E97A70 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E60E47C91121CAFF7BEA4B403ABC550E /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		E76B0BEE304E4D1E7227C68E600FCF7D /* ImmutableMappable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImmutableMappable.swift; path = Sources/ImmutableMappable.swift; sourceTree = "<group>"; };
-		E83CED8583F6FD2B526F13776359D694 /* VCHTTPConnect-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VCHTTPConnect-prefix.pch"; sourceTree = "<group>"; };
 		EA3C6FC90948C72C69AC6D9D8F851816 /* MapError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MapError.swift; path = Sources/MapError.swift; sourceTree = "<group>"; };
-		EAB03FF33F1EA4573675AEBAD7E3111A /* VCHTTPConnect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VCHTTPConnect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAB03FF33F1EA4573675AEBAD7E3111A /* VCHTTPConnect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = VCHTTPConnect.framework; path = VCHTTPConnect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB70904107D1AC89EE028A0A183D18F5 /* TaskDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TaskDelegate.swift; path = Source/TaskDelegate.swift; sourceTree = "<group>"; };
-		EB8FE43A08E25ADD30047DF4033CA090 /* VCHTTPConnect-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "VCHTTPConnect-dummy.m"; sourceTree = "<group>"; };
+		F0A9D07D1D2E108CBC85DAB092AC7AE2 /* VCHTTPConnect-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VCHTTPConnect-prefix.pch"; sourceTree = "<group>"; };
 		F1BF4FBEEC6FB57B963000CD5AC07725 /* QRCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QRCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F257BD7281D3CD3891B7BA2A145234A0 /* QRCode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QRCode.swift; path = QRCode/QRCode.swift; sourceTree = "<group>"; };
-		F31FADBE701DD0B81AF42DDFB69DBFF5 /* VCHTTPModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCHTTPModel.swift; path = VCHTTPConnect/Classes/VCHTTPModel.swift; sourceTree = "<group>"; };
 		F4112970569C58E245840A69C4F30717 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
 		F4E46ACF2957341F2E89A7ECCD48335F /* SessionDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDelegate.swift; path = Source/SessionDelegate.swift; sourceTree = "<group>"; };
-		F578B76F9888BFC555AAC250C35084E8 /* QRCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QRCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F854B4824C037850EE7F10B8B1D78696 /* VCHTTPConnect-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VCHTTPConnect-umbrella.h"; sourceTree = "<group>"; };
+		F578B76F9888BFC555AAC250C35084E8 /* QRCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = QRCode.framework; path = QRCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F717B4ED212F885DEA49F10624C925CA /* VCDatabase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VCDatabase.swift; path = VCHTTPConnect/Classes/VCDatabase.swift; sourceTree = "<group>"; };
 		FCD608A799725360EE8CFF5A84DB6794 /* EnumTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumTransform.swift; path = Sources/EnumTransform.swift; sourceTree = "<group>"; };
-		FF803CDB1F7FBA5C1A7ACD8A80CC36FD /* VCSwiftToolkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VCSwiftToolkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF803CDB1F7FBA5C1A7ACD8A80CC36FD /* VCSwiftToolkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = VCSwiftToolkit.framework; path = VCSwiftToolkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,6 +365,22 @@
 			path = "../Target Support Files/Alamofire";
 			sourceTree = "<group>";
 		};
+		1E3B15A1806731C0432FA422A4BE36AB /* VCHTTPConnect */ = {
+			isa = PBXGroup;
+			children = (
+				46B2A4E47BC0D426395A0C6C64DD31FB /* VCCacheManager.swift */,
+				F717B4ED212F885DEA49F10624C925CA /* VCDatabase.swift */,
+				CDCC48F6DBFFDF23FCD1DD86B13D8AC3 /* VCEntityModel.swift */,
+				3C31719CDCD45EFCFA53F7B20DD5DD1A /* VCGraphQLConnector.swift */,
+				98BD369566554C790EF2F8465F4D121C /* VCHTTPConnect.swift */,
+				05C32D80ED3EB2874FC10A01DAD15F1B /* VCHTTPDatastore.swift */,
+				986C86ED828FF9F93F26703CA6A9B7E5 /* VCHTTPModel.swift */,
+				9D58635F8339A321410B4FC5A43073D0 /* Support Files */,
+			);
+			name = VCHTTPConnect;
+			path = ../..;
+			sourceTree = "<group>";
+		};
 		262445223469E03AE77939662D339620 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,6 +416,7 @@
 				A3E5B937DA3B0024AE9EA6E4A122FBCC /* URLTransform.swift */,
 				F013AB3281587570FD3CF64335FC8B36 /* Support Files */,
 			);
+			name = ObjectMapper;
 			path = ObjectMapper;
 			sourceTree = "<group>";
 		};
@@ -414,6 +431,7 @@
 				42713B02E57349B070DF0D120482C268 /* VCToolkit.swift */,
 				64B7DE4616DA9DF9C9AEAEBA19D8FE9D /* Support Files */,
 			);
+			name = VCSwiftToolkit;
 			path = VCSwiftToolkit;
 			sourceTree = "<group>";
 		};
@@ -465,46 +483,16 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		7A10E7D56CFD2D1EE124B5EB62A05EF6 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				858EC690DBB6D7EF00AEB134E2F7FE07 /* Info.plist */,
-				63035264E5125369116C03D06C28F857 /* VCHTTPConnect.modulemap */,
-				0E25B839E376F3390E66F2C047C6F3C4 /* VCHTTPConnect.xcconfig */,
-				EB8FE43A08E25ADD30047DF4033CA090 /* VCHTTPConnect-dummy.m */,
-				E83CED8583F6FD2B526F13776359D694 /* VCHTTPConnect-prefix.pch */,
-				F854B4824C037850EE7F10B8B1D78696 /* VCHTTPConnect-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/VCHTTPConnect";
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				E72DD9F20DE7B0CC8886264AB9D82C20 /* Development Pods */,
+				ABD44149A49F7E8EBFAB9E2C9091134D /* Development Pods */,
 				9CF8AD70126FD83EBD38768903C27E72 /* Frameworks */,
 				63656A1459F397D537E0F6A5E887A078 /* Pods */,
 				4672FAE708FAF1C23C92368EF8A003D8 /* Products */,
 				73648F4370F78246E536778D7AB1A4D9 /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		88E77F3D6776A9B8179D6E512DDAB805 /* VCHTTPConnect */ = {
-			isa = PBXGroup;
-			children = (
-				A50E379D70B60C485443006C9901CAE6 /* VCCacheManager.swift */,
-				9F2835FB67875C706CD5C81F7854098E /* VCDatabase.swift */,
-				03429BB074D1D6C30D9A8B80BD618E70 /* VCGraphQLDatastore.swift */,
-				47D49090DD4E9CF2BF4F3BC5F572FB31 /* VCHTTPConnect.swift */,
-				076C237FA6CB471722F8E65E9F4C53C9 /* VCHTTPDatastore.swift */,
-				F31FADBE701DD0B81AF42DDFB69DBFF5 /* VCHTTPModel.swift */,
-				A51AD6B35DA081F339FC5F20E1657707 /* VCEntityModel.swift */,
-				7A10E7D56CFD2D1EE124B5EB62A05EF6 /* Support Files */,
-			);
-			name = VCHTTPConnect;
-			path = ../..;
 			sourceTree = "<group>";
 		};
 		9CF8AD70126FD83EBD38768903C27E72 /* Frameworks */ = {
@@ -517,6 +505,20 @@
 				262445223469E03AE77939662D339620 /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D58635F8339A321410B4FC5A43073D0 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D6EAC4A83B97A1A87210BB09DA555E98 /* Info.plist */,
+				90FD757BD00E515CCE579FE857CB3BCD /* VCHTTPConnect.modulemap */,
+				B121EE97565A4795C54637E8C9C0B8C2 /* VCHTTPConnect.xcconfig */,
+				1381EC7E4D1A7C219A7450B07F9393A0 /* VCHTTPConnect-dummy.m */,
+				F0A9D07D1D2E108CBC85DAB092AC7AE2 /* VCHTTPConnect-prefix.pch */,
+				3FD6965D214E8CF6E341673333BB9A7D /* VCHTTPConnect-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/VCHTTPConnect";
 			sourceTree = "<group>";
 		};
 		9F24296ABB8E874F072B3E7FDBE2059D /* Pods-VCHTTPConnect_Example */ = {
@@ -535,6 +537,14 @@
 			);
 			name = "Pods-VCHTTPConnect_Example";
 			path = "Target Support Files/Pods-VCHTTPConnect_Example";
+			sourceTree = "<group>";
+		};
+		ABD44149A49F7E8EBFAB9E2C9091134D /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1E3B15A1806731C0432FA422A4BE36AB /* VCHTTPConnect */,
+			);
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		AF568767F1D4EFF479B02209D27D82F3 /* Support Files */ = {
@@ -560,15 +570,8 @@
 				63C2FBEF7F9A7EBAD0F8C2AA3152E3FE /* UIImageViewExtension.swift */,
 				AF568767F1D4EFF479B02209D27D82F3 /* Support Files */,
 			);
+			name = QRCode;
 			path = QRCode;
-			sourceTree = "<group>";
-		};
-		E72DD9F20DE7B0CC8886264AB9D82C20 /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				88E77F3D6776A9B8179D6E512DDAB805 /* VCHTTPConnect */,
-			);
-			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		E7F2C5AEDD848BB479523528BC625BCE /* Pods-VCHTTPConnect_Tests */ = {
@@ -625,6 +628,7 @@
 				E60E47C91121CAFF7BEA4B403ABC550E /* Validation.swift */,
 				115F749FDA854959B46A8B206DFA79C2 /* Support Files */,
 			);
+			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -763,7 +767,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 735D257428B76A8D6E5966226EB48DD2 /* Build configuration list for PBXNativeTarget "VCHTTPConnect" */;
 			buildPhases = (
-				3F4185C0ABB39198957B98C71308E1AC /* Sources */,
+				52F816BCDCAF902AD2BDC414A7F215E5 /* Sources */,
 				AE47521069B6A5FF97F69C8D80DE2673 /* Frameworks */,
 				A365744AB765DC4820DB094C1DCAD969 /* Headers */,
 			);
@@ -877,18 +881,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3F4185C0ABB39198957B98C71308E1AC /* Sources */ = {
+		52F816BCDCAF902AD2BDC414A7F215E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACB55409BFB96B76622904B20AFB2FB6 /* VCCacheManager.swift in Sources */,
-				97BE084D0B70B8DAFF1A873F0BB07E85 /* VCDatabase.swift in Sources */,
-				FB9D8378B98328E84BD7315AD9432DCC /* VCGraphQLDatastore.swift in Sources */,
-				9894880ACE3D116597387EED0286D756 /* VCHTTPConnect-dummy.m in Sources */,
-				23634364F5DDFEF866C835DB0153ADAB /* VCHTTPConnect.swift in Sources */,
-				B729297DB8DF19EAA4BF621D5C14E79D /* VCHTTPDatastore.swift in Sources */,
-				89D4B2F2168C152017D4521AE7F605D5 /* VCHTTPModel.swift in Sources */,
-				8BF9B9C33E3B03B4AE2BF2CAD36FE795 /* VCEntityModel.swift in Sources */,
+				5BCF7A9D4E171598A1725A79E4E01CE8 /* VCCacheManager.swift in Sources */,
+				CBB4187BDA7A85C8757A46F9369C3706 /* VCDatabase.swift in Sources */,
+				81C99D83EA64FA400515363AB47D974E /* VCEntityModel.swift in Sources */,
+				6F2BA1DD1FB0F3D5C92C05DDFAE6A828 /* VCGraphQLConnector.swift in Sources */,
+				5549DACC04C5D4F861C6753AE2C9DC0B /* VCHTTPConnect-dummy.m in Sources */,
+				D43827DECD9B21D979A42A1147C06BBC /* VCHTTPConnect.swift in Sources */,
+				BB3401F960771EE45E58175AB04BB40D /* VCHTTPDatastore.swift in Sources */,
+				B63000E56EE0F8633944BC82E119E98F /* VCHTTPModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1173,7 +1177,7 @@
 		};
 		46A78D9C58EFDDEBFDE12461E5122661 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E25B839E376F3390E66F2C047C6F3C4 /* VCHTTPConnect.xcconfig */;
+			baseConfigurationReference = B121EE97565A4795C54637E8C9C0B8C2 /* VCHTTPConnect.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1243,7 +1247,7 @@
 		};
 		4D9900DD73381993B77613D35A1EDDBC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E25B839E376F3390E66F2C047C6F3C4 /* VCHTTPConnect.xcconfig */;
+			baseConfigurationReference = B121EE97565A4795C54637E8C9C0B8C2 /* VCHTTPConnect.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
