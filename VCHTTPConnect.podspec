@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'VCHTTPConnect'
-  s.version          = '0.0.52'
+  s.version          = '0.1.0'
   s.summary          = 'Awesome and simple way to make HTTP connections on iOS using Swift 3.'
 
 # This description is used to generate tags and improve search results.
@@ -40,5 +40,5 @@ This is wrapper around the awesome SwiftHTTP library. The intention here is to b
   # s.frameworks = 'UIKit', 'MapKit'
 s.dependency 'Alamofire', '4.4'
 s.dependency 'ObjectMapper', '2.2'
-s.dependency 'VCSwiftToolkit'
+s.dependency 'VCSwiftToolkit', '0.1.0'
 end
