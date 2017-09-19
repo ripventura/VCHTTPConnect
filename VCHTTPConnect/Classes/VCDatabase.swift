@@ -55,22 +55,16 @@ open class VCDatabase {
     
     /** Batch Updates an Array of models on a given Table. */
     open func batchUpdate(models: [VCEntityModel]) {
-        // Loads the Table models
-        var tableModels: [VCEntityModel] = self.models
-        
-        // Loops each model to update
-        for model in models {
-            // Loops every model on the Table
-            for (index, tableModel) in tableModels.enumerated() {
-                // If they are the same
-                if model.modelId != nil && model.modelId == tableModel.modelId {
-                    // Replace
-                    tableModels[index] = model
-                }
+        // Loops every model to be updated
+        models.forEach({newModel in
+            // If the DB has this model stored
+            if let index = self.models.index(where: {dbModel in
+                return dbModel.modelId == newModel.modelId
+            }) {
+                // Update it
+                self.models[index] = newModel
             }
-        }
-        
-        self.models = tableModels
+        })
     }
     
     // MARK: - SELECT
@@ -129,9 +123,10 @@ open class VCDatabase {
     /** Saves an array of models on the Table file */
     internal func save() -> VCOperationResult {
         var entities: [String] = []
-        for model in self.models {
+        
+        self.models.forEach({model in
             entities.append(model.toJSONString()!)
-        }
+        })
         
         return VCFileManager.writeArray(array: entities as NSArray,
                                         fileName: self.name,
@@ -150,13 +145,11 @@ open class VCDatabase {
         
         // Converts entities to models
         var models: [VCEntityModel] = []
-        for entity in entities {
+        entities.forEach({entity in
             if let model = self.modelInit(entity: entity) {
                 models.append(model)
             }
-        }
-        
-        
+        })
         return models
     }
     
