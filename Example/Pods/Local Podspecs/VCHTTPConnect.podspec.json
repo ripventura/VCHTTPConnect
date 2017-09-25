@@ -21,13 +21,13 @@
   "source_files": "VCHTTPConnect/Classes/**/*",
   "dependencies": {
     "Alamofire": [
-      "4.4"
+      "~> 4.4"
     ],
     "ObjectMapper": [
-      "2.2"
+      "~> 3.0.0"
     ],
     "VCSwiftToolkit": [
-      "0.1.0"
+      "~> 0.1.0"
     ]
   }
 }
