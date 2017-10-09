@@ -1,6 +1,6 @@
 {
   "name": "VCHTTPConnect",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "summary": "Awesome and simple way to make HTTP connections on iOS using Swift 3.",
   "description": "This is wrapper around the awesome SwiftHTTP library. The intention here is to be as simple as possible when making HTTP connections.",
   "homepage": "https://github.com/ripventura/VCHTTPConnect",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/ripventura/VCHTTPConnect.git",
-    "tag": "0.1.1"
+    "tag": "0.1.3"
   },
   "platforms": {
     "ios": "8.0"

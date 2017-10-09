@@ -25,7 +25,7 @@ open class VCGraphQLConfig: NSObject {
 
 open class VCGraphQLConnector: NSObject {
     /** Connector used on HTTP Requests */
-    private var connector: VCHTTPConnect?
+    public var connector: VCHTTPConnect?
     
     // MARK: - Overridable
     
@@ -88,3 +88,4 @@ open class VCGraphQLConnector: NSObject {
         self.connector?.headers = sharedGraphQLConfig.headers
     }
 }
+
