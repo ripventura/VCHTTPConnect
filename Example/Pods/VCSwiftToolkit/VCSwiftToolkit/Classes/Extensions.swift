@@ -10,14 +10,14 @@ import UIKit
 import QRCode
 
 extension Dictionary {
-    /** Appends another dictionary into this one **/
+    /** Appends another dictionary into this one */
     public mutating func vcAppendDictionary(otherDict : Dictionary) {
         for (key,value) in otherDict {
             self.updateValue(value, forKey:key)
         }
     }
     
-    /** Returns a JSON String (pretty printed) from this Dictionary **/
+    /** Returns a JSON String (pretty printed) from this Dictionary */
     public func vcJSONString(encoding: String.Encoding = String.Encoding.utf8) -> String? {
         if let data = VCToolkit.anyObjectToJSONData(object: self as AnyObject) {
             return String(data: data, encoding: encoding)
@@ -185,6 +185,11 @@ extension UIColor {
 }
 
 extension String {
+    /** Returns whether this String contains antoher String, with options CaseInsensitve and DiacriticOption */
+    public func vcContains(otherString: String) -> Bool {
+        return self.lowercased().range(of: otherString.lowercased(), options: String.CompareOptions.diacriticInsensitive) != nil
+    }
+    
     /**
      *  Converts a String to base64 String
      */
@@ -275,120 +280,121 @@ extension String {
 extension Date {
     public enum DateFormat: String {
         
-        /** 2015-09-06T07:59:59.000Z **/
+        /** 2015-09-06T07:59:59.000Z */
         case DateTimeISO8601IN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        /** 2015-09-06T07:59:59Z **/
+        /** 2015-09-06T07:59:59Z */
         case DateTimeISO8601OUT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         
-        /** 2015-09-06 07:59:59 **/
+        /** 2015-09-06 07:59:59 */
         case DateTimeISO = "yyyy-MM-dd HH:mm:ss"
-        /** 2015-09-06 07-59-59 **/
+        /** 2015-09-06 07-59-59 */
         case DateTimeISODashed = "yyyy-MM-dd HH-mm-ss"
-        /** 09-06-2015 07:59:59 **/
+        /** 09-06-2015 07:59:59 */
         case DateTimeISOMonthDayYear = "MM-dd-yyyy HH:mm:ss"
-        /** 06-09-2015 07:59:59 **/
+        /** 06-09-2015 07:59:59 */
         case DateTimeISODayMonthYear = "dd-MM-yyyy HH:mm:ss"
         
-        /** 09/06 07:59 AM **/
+        /** 09/06 07:59 AM */
         case DateLongTime12LongAMPMFormat = "MM/dd hh:mm a"
-        /** 9/6 07:59 AM **/
+        /** 9/6 07:59 AM */
         case DateShortTime12LongAMPMFormat = "M/d hh:mm a"
-        /** 09/06 7:59 AM **/
+        /** 09/06 7:59 AM */
         case DateLongTime12ShortAMPMFormat = "MM/dd h:mm a"
-        /** 9/6 7:59 AM **/
+        /** 9/6 7:59 AM */
         case DateShortTime12ShortAMPMFormat = "M/d h:mm a"
         
-        /** Wed 06, 09:00 AM **/
+        /** Wed 06, 09:00 AM */
         case WeekdayShortDayLongTime12LongAMPMFormat = "EEE dd, hh:mm a"
-        /** Wed 06, 9:00 AM **/
+        /** Wed 06, 9:00 AM */
         case WeekdayShortDayLongTime12ShortAMPMFormat = "EEE dd, h:mm a"
-        /** Wed 6, 09:00 AM **/
+        /** Wed 6, 09:00 AM */
         case WeekdayShortDayShortTime12LongAMPMFormat = "EEE d, hh:mm a"
-        /** Wed 6, 9:00 AM **/
+        /** Wed 6, 9:00 AM */
         case WeekdayShortDayShortTime12ShortAMPMFormat = "EEE d, h:mm a"
-        /** Wednesday 06 **/
+        /** Wednesday 06 */
         case WeekdayLongDayLongFormat = "EEEE dd"
-        /** Wednesday 6 **/
+        /** Wednesday 6 */
         case WeekdayLongDayShortFormat = "EEEE d"
-        /** Wednesday, 4/6 **/
+        /** Wednesday, 4/6 */
         case WeekdayLongDateShortFormat = "EEEE, M/d"
-        /** Wed, 4/6 **/
+        /** Wed, 4/6 */
         case WeekdayShortDateShortFormat = "EEE, M/d"
-        /** Wed, 06 Apr 2015 **/
+        /** Wed, 06 Apr 2015 */
         case WeekdayShortDayShortMonthNameShortYearLongFormat = "EEE, dd MMM yyyy"
         
-        /** 2015-09-06 **/
+        /** 2015-09-06 */
         case DateISO = "yyyy-MM-dd"
         
-        /** 09/06 **/
+        /** 09/06 */
         case DateLongFormat = "MM/dd"
-        /** 9/6 **/
+        /** 9/6 */
         case DateShortFormat = "M/d"
         
-        /** 09 **/
+        /** 09/06/2015 */
+        case DateYearLongFormat = "MM/dd/yyyy"
+        /** 9/6/15 */
+        case DateYearShortFormat = "M/d/yy"
+        
+        /** 09 */
         case MonthLongFormat = "MM"
-        /** 9 **/
+        /** 9 */
         case MonthShortFormat = "M"
-        /** September **/
+        /** September */
         case MonthNameLongFormat = "MMMM"
-        /** Sep **/
+        /** Sep */
         case MonthNameShortFormat = "MMM"
         
-        /** 2015 **/
+        /** 2015 */
         case YearLongFormat = "yyyy"
-        /** 15 **/
+        /** 15 */
         case YearShortFormat = "yy"
         
-        /** 09 **/
+        /** 09 */
         case DayLongFormat = "dd"
-        /** 9 **/
+        /** 9 */
         case DayShortFormat = "d"
         
-        /** Sep 06 **/
+        /** Sep 06 */
         case MonthNameShortDayLongFormat = "MMM dd"
-        /** Sep 6 **/
+        /** Sep 6 */
         case MonthNameShortDayShortFormat = "MMM d"
         
-        /** Sep 6, 2016 **/
+        /** Sep 6, 2016 */
         case MonthNameShortDayShortYearLongFormat = "MMM d, yyyy"
         
-        /** Sep, 2016 **/
+        /** Sep, 2016 */
         case MonthNameShortYearLongFormat = "MMM, yyyy"
-        /** September, 2016 **/
+        /** September, 2016 */
         case MonthNameLongYearLongFormat = "MMMM, yyyy"
         
-        /** 07:59:59 **/
+        /** 07:59:59 */
         case TimeISO = "HH:mm:ss"
         
-        /** 07:59 AM **/
+        /** 07:59 AM */
         case Time12LongAMPMFormat = "hh:mm a"
-        /** 7:59 AM **/
+        /** 7:59 AM */
         case Time12ShortAMPMFormat = "h:mm a"
         
-        /** 07:59 AM **/
-        case Time24LongAMPMFormat = "HH:mm"
-        /** 7:59 AM **/
-        case Time24ShortAMPMFormat = "H:mm"
+        /** 07:59 */
+        case Time24LongFormat = "HH:mm"
+        /** 7:59 */
+        case Time24ShortFormat = "H:mm"
         
-        /** 07 **/
+        /** 07 */
         case TimeHour12LongFormat = "hh"
-        /** 7 **/
+        /** 7 */
         case TimeHour12ShortFormat = "h"
         
-        /** 07 **/
+        /** 07 */
         case TimeHour24LongFormat = "HH"
-        /** 7 **/
+        /** 7 */
         case TimeHour24ShortFormat = "H"
         
-        /** 08 **/
+        /** 08 */
         case TimeMinuteLongFormat = "mm"
-        /** 8 **/
-        case TimeMinuteShortFormat = "m"
         
-        /** 09 **/
+        /** 09 */
         case TimeSecondsLongFormat = "ss"
-        /** 9 **/
-        case TimeSecondsShortFormat = "s"
     }
     
     /** Returns a formatted String with the specified Timezone and Format */
@@ -414,7 +420,9 @@ extension Date {
     }
     
     /** Returns the readable interval between 2 dates */
-    public func vcReadableIntervalBetweenDates(otherDate: Date) -> String {
+    public func vcReadableIntervalBetweenDates(otherDate: Date,
+                                               locale: ReadableIntervalLocaleProtocol = EnUSReadableIntervalLocale(),
+                                               includeAddon: Bool = true) -> String {
         let interval = self.timeIntervalSince(otherDate)
         var diff : TimeInterval = interval
         if diff < 0 {
@@ -423,38 +431,55 @@ extension Date {
         
         var string = ""
         
+        // Less than 1 minute (still seconds)
         if diff < 59 {
-            string = "less than 1 minute"
+            return locale.justNow
         }
+        // Less than 1 hour (still minutes)
         else if diff <= 3599 {
             let minutes = String(format: "%.0f", diff/60)
             
             if Int(minutes)! > 1 {
-                string = "about " + minutes + " minutes"
+                string = locale.about + " " + minutes + " " + locale.minutes
             }
             else {
-                string = "about 1 minute"
+                string = locale.about + " 1 " + locale.minute
             }
             
         }
-        else {
+        // Less than 1 day (still hours)
+        else if diff <= 86399 {
             let hours = String(format: "%.0f", diff/60/60)
             
             if Int(hours)! > 1 {
-                string = "about " + hours + " hours"
+                string = locale.about + " " + hours + " " + locale.hours
             }
             else {
-                string = "about 1 hour"
+                string = locale.about + " 1 " + locale.hour
+            }
+        }
+        // Days
+        else {
+            let days = String(format: "%.0f", diff/60/60/24)
+            
+            if Int(days)! > 1 {
+                string = locale.about + " " + days + " " + locale.days
+            }
+            else {
+                string = locale.about + " 1 " + locale.day
             }
         }
         
+        if includeAddon {
+            if interval < 0 {
+                string = string + " " + locale.pastAddon
+            }
+            else {
+                string =  locale.futureAddon + " " + string
+            }
+        }
         
-        if interval < 0 {
-            return string + " ago"
-        }
-        else {
-            return "in " + string
-        }
+        return string
     }
     
     /** Sets this Date's Year */
@@ -559,3 +584,4 @@ extension Date {
         }
     }
 }
+

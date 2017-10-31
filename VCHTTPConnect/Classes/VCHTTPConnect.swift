@@ -62,6 +62,8 @@ open class VCHTTPConnect {
         public let url : URL?
         // Data returned on the connection
         public let data : Data?
+        // Description of the HTTP call
+        public let description: String?
         
         /** Initializes this HTTPResponse with an Alamofire Response object. */
         public init(response: DataResponse<Data>) {
@@ -70,6 +72,7 @@ open class VCHTTPConnect {
             self.headers = response.response?.allHeaderFields as? [String : String]
             self.url = response.response?.url
             self.data = response.data
+            self.description = response.description
         }
         public init(response: DataResponse<Any>) {
             self.statusCode = response.response?.statusCode
@@ -77,6 +80,7 @@ open class VCHTTPConnect {
             self.headers = response.response?.allHeaderFields as? [String : String]
             self.url = response.response?.url
             self.data = response.data
+            self.description = response.description
         }
     }
     

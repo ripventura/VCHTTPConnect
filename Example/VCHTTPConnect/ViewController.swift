@@ -8,6 +8,7 @@
 
 import UIKit
 import VCHTTPConnect
+import VCSwiftToolkit
 
 class ViewController: UIViewController {
     
@@ -69,15 +70,7 @@ class ViewController: UIViewController {
             
             self.responseDataTextView.text = "Nothing to show here..."
             
-            if response.data != nil {
-                do {
-                    let jsonObject : Any = try JSONSerialization.jsonObject(with: response.data!, options: JSONSerialization.ReadingOptions.allowFragments)
-                    
-                    self.responseDataTextView.text = (jsonObject as? [String : Any])?.description
-                }
-                catch {
-                }
-            }
+            self.responseDataTextView.text = (response.data?.vcAnyFromJSON() as? [String:Any])?.description
             
             self.updateInterface(loading: false)
         })

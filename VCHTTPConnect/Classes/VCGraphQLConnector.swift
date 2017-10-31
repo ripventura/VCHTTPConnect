@@ -43,7 +43,6 @@ open class VCGraphQLConnector: NSObject {
      */
     open func query(query: String,
                     variables: [String:Any]?,
-                    cacheKey: String? = nil,
                     completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
         
         self.setupConnector(query: query, variables: variables)
@@ -71,7 +70,6 @@ open class VCGraphQLConnector: NSObject {
                        completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
         self.query(query: query,
                    variables: variables,
-                   cacheKey: nil,
                    completionHandler: completionHandler)
     }
     
