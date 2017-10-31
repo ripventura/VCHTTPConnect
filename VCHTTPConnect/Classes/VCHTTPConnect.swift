@@ -161,18 +161,34 @@ open class VCHTTPConnect {
     private func startRESTRequest(url: String, method : HTTPMethod, handler : @escaping (Bool, HTTPResponse) -> Void) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        self.request = Alamofire.request(url,
-                                         method: method,
-                                         parameters: method == .get || method == .delete ? self.parameters as! [String:String] : self.parameters,
-                                         encoding: URLEncoding(destination: .methodDependent),
-                                         headers: self.headers).validate().responseJSON { response in
-                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                                            
-                                            self.request = nil
-                                            
-                                            let httpResponse = HTTPResponse(response: response)
-                                            
-                                            handler(response.result.isSuccess, httpResponse)
+        func handleResponse(response: DataResponse<Any>) {
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
+            self.request = nil
+            
+            let httpResponse = HTTPResponse(response: response)
+            
+            handler(response.result.isSuccess, httpResponse)
+        }
+        
+        if method == .get || method == .delete {
+            self.request = Alamofire.request(url,
+                                             method: method,
+                                             parameters: self.parameters as! [String:String],
+                                             encoding: URLEncoding(destination: .methodDependent),
+                                             headers: self.headers).validate().debugLog().responseJSON { response in
+                                                handleResponse(response: response)
+            }
+        }
+        else {
+            self.request = Alamofire.request(url,
+                                             method: method,
+                                             parameters: self.parameters,
+                                             encoding: JSONEncoding(options: .prettyPrinted),
+                                             headers: self.headers).validate().debugLog().responseJSON {response in
+                                                handleResponse(response: response)
+            }
         }
         
         self.request?.resume()
@@ -201,3 +217,13 @@ open class VCHTTPConnect {
     }
 }
 
+extension Request {
+    public func debugLog() -> Self {
+        #if DEBUG
+            debugPrint("=======================================")
+            debugPrint(self)
+            debugPrint("=======================================")
+        #endif
+        return self
+    }
+}

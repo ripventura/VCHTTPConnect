@@ -2,7 +2,7 @@ PODS:
   - Alamofire (4.4.0)
   - ObjectMapper (3.0.0)
   - QRCode (2.0)
-  - VCHTTPConnect (0.1.4):
+  - VCHTTPConnect (0.1.5):
     - Alamofire (~> 4.4)
     - ObjectMapper (~> 3.0.0)
     - VCSwiftToolkit (~> 0.1.0)
@@ -23,7 +23,7 @@ SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   ObjectMapper: 92230db59bf8f341a5c3a3cf0b9fbdde3cf0d87f
   QRCode: f98a1886c8f37523704a7512a4c0cd45b34c18a4
-  VCHTTPConnect: 3e6c3bc542b9fc1cd73691243aacd4386fb249f2
+  VCHTTPConnect: f1fffa387e8ab0540ceb8c2ab55950875775886b
   VCSwiftToolkit: cc60a884b374eab40711ed67cdc10a78513328dc
 
 PODFILE CHECKSUM: cdc73c2605034122ebffc350cde1346a1662e7ab
