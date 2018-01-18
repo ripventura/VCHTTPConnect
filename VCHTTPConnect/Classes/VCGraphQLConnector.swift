@@ -42,8 +42,8 @@ open class VCGraphQLConnector: NSObject {
      - variables: Optional dictionary of variables for this Query.
      */
     open func query(query: String,
-                    variables: [String:Any]?,
-                    completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
+                    variables: [String:Any?]?,
+                    completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any?]?) -> Void)) -> Void {
         
         self.setupConnector(query: query, variables: variables)
         
@@ -66,8 +66,8 @@ open class VCGraphQLConnector: NSObject {
      - variables: Optional dictionary of variables for this Query.
      */
     open func mutation(query: String,
-                       variables: [String:Any]?,
-                       completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any]?) -> Void)) -> Void {
+                       variables: [String:Any?]?,
+                       completionHandler: @escaping((VCHTTPConnect.HTTPResponse?, [String:Any?]?) -> Void)) -> Void {
         self.query(query: query,
                    variables: variables,
                    completionHandler: completionHandler)
@@ -75,7 +75,7 @@ open class VCGraphQLConnector: NSObject {
     
     // MARK: - Helpers
     
-    internal func setupConnector(query: String, variables: [String:Any]?) -> Void {
+    internal func setupConnector(query: String, variables: [String:Any?]?) -> Void {
         var params : [String:Any] = ["query":query]
         if let variables = variables {
             params["variables"] = variables
