@@ -32,7 +32,7 @@
 /* Begin PBXFileReference section */
 		18C70CC21EDCCAFD003ACCB6 /* DemoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoModel.swift; sourceTree = "<group>"; };
 		18C70CCF1EDDDA58003ACCB6 /* DemoDatastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoDatastore.swift; sourceTree = "<group>"; };
-		23D1032C7E827602049A0D5D /* VCHTTPConnect.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = VCHTTPConnect.podspec; path = ../VCHTTPConnect.podspec; sourceTree = "<group>"; };
+		23D1032C7E827602049A0D5D /* VCHTTPConnect.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = VCHTTPConnect.podspec; path = ../VCHTTPConnect.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		3884651FCA079EB58AE4297D /* Pods-VCHTTPConnect_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VCHTTPConnect_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VCHTTPConnect_Tests/Pods-VCHTTPConnect_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* VCHTTPConnect_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VCHTTPConnect_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };

@@ -103,11 +103,7 @@ open class VCHTTPConnect {
     public var canceledRequest: Bool = false
     
     /** The request object. */
-    public var request : Request? {
-        didSet {
-            self.canceledRequest = false
-        }
-    }
+    public var request : Request?
     let sessionManager = Alamofire.SessionManager.default
     
     
@@ -197,7 +193,7 @@ open class VCHTTPConnect {
                                                 handleResponse(response: response)
             }
         }
-        
+        self.canceledRequest = false
         self.request?.resume()
     }
     
@@ -219,7 +215,7 @@ open class VCHTTPConnect {
                 
                 handler(response.result.isSuccess, httpResponse)
         }
-        
+        self.canceledRequest = false
         self.request?.resume()
     }
 }

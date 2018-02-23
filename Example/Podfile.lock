@@ -2,7 +2,7 @@ PODS:
   - Alamofire (4.6.0)
   - EFQRCode (4.2.0)
   - ObjectMapper (3.1.0)
-  - VCHTTPConnect (0.1.7):
+  - VCHTTPConnect (0.1.8):
     - Alamofire (~> 4.4)
     - ObjectMapper (~> 3.1)
     - VCSwiftToolkit (~> 0.1)
@@ -23,7 +23,7 @@ SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   EFQRCode: 1308651fdaa9e3d72b704cb23b32a3f6f8bb1ef1
   ObjectMapper: 20505058f54e5c3ca69e1d6de9897d152a5369a6
-  VCHTTPConnect: afc901093ded8151440e17b4637ee599b358068a
+  VCHTTPConnect: 867a1bad93230ac195cb12b03f04c73eaf9524ef
   VCSwiftToolkit: ab9a2e34a0047cd2fdde21b92442c49e6c90095e
 
 PODFILE CHECKSUM: f2fe6b3f4da6458a9e8a5131382bf3f99f55b2b3
