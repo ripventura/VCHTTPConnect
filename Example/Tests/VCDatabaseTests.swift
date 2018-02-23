@@ -45,6 +45,7 @@ class VCDatabaseTests: XCTestCase {
         
         return models
     }
+    
     // MARK: - INSERT
     
     func testInsert() {

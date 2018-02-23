@@ -3,8 +3,8 @@ use_frameworks!
 target 'VCHTTPConnect_Example' do
   pod 'VCHTTPConnect', :path => '../'
   pod 'Alamofire', '~> 4.4'
-  pod 'ObjectMapper', '~> 3.0.0'
-  pod 'VCSwiftToolkit', '~> 0.1.0'
+  pod 'ObjectMapper', '~> 3.1'
+  pod 'VCSwiftToolkit', '~> 0.1'
   
   target 'VCHTTPConnect_Tests' do
     inherit! :search_paths

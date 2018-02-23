@@ -87,21 +87,27 @@ open class VCHTTPConnect {
     // URL string used on the call
     public var url : String
     
-    /* Parameters to be used on the call.
-     * On POST and PUT calls this represents the Body.
-     * On GET calls this will be encoded on the URL and must be on [String:String] format. */
+    /** Parameters to be used on the request. */
     public var parameters : [String:Any]
     
-    // Header used on the call
+    /** HTTP Headers used on the request. */
     public var headers : [String:String]
     
-    //How the parameters are attatched to the request. Default is methodDependent
-    //GET + DELETE: urlEncoded
-    //POST + PUT: json on body
+    /** How the parameters are attatched to the request. Default is methodDependent.
+     Default config:
+     POST + PUT: json on body.
+     GET + DELETE: urlEncoded encoded on the URL and must be on [String:String] format. */
     public var parametersEncoding : URLEncoding.Destination = .methodDependent
     
+    /** Wheter the last request was canceled by the user. */
+    public var canceledRequest: Bool = false
     
-    public var request : Request?
+    /** The request object. */
+    public var request : Request? {
+        didSet {
+            self.canceledRequest = false
+        }
+    }
     let sessionManager = Alamofire.SessionManager.default
     
     
@@ -117,28 +123,28 @@ open class VCHTTPConnect {
     }
     
     
-    /** Starts a POST connection on the given Path **/
+    /** Starts a POST connection on the given Path */
     public func post(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
                               method: .post,
                               handler: handler)
     }
     
-    /** Starts a PUT connection on the given Path **/
+    /** Starts a PUT connection on the given Path */
     public func put(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
                               method: .put,
                               handler: handler)
     }
     
-    /** Starts a GET connection on the given Path **/
+    /** Starts a GET connection on the given Path */
     public func get(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
                               method: .get,
                               handler: handler)
     }
     
-    /** Starts a DELETE connection on the given Path **/
+    /** Starts a DELETE connection on the given Path */
     public func delete(path : String, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startRESTRequest(url: self.url + path,
                               method: .delete,
@@ -147,10 +153,11 @@ open class VCHTTPConnect {
     
     /** Cancels the current request **/
     public func cancelRequest() {
+        self.canceledRequest = true
         self.request?.cancel()
     }
     
-    /** Downloads a file on the given path **/
+    /** Downloads a file on the given path */
     public func download(path : String, progressHandler : ((Double) -> Void)?, handler : @escaping (Bool, HTTPResponse) -> Void) {
         self.startDownloadRequest(url: self.url + path,
                                   progressHandler: progressHandler,
