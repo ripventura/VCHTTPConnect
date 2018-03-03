@@ -12,7 +12,7 @@ import VCSwiftToolkit
 
 class ViewController: UIViewController {
     
-    var datastore: DemoDatastore = DemoDatastore()
+    var connector: VCHTTPConnect = VCHTTPConnect(url: "https://jsonplaceholder.typicode.com/posts")
     
     @IBOutlet weak var getButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
@@ -43,29 +43,31 @@ class ViewController: UIViewController {
     }
     
     func startGETRequest() {
-        datastore.find(filter: [:], completionHandler: {response, models in
+        self.connector.parameters = [:]
+        self.connector.get(path: "") { (success, response) in
             self.statusLabel.text = String(format: "%d", response.statusCode!)
             
             var text: String = "Nothing to show here..."
             
-            if let models = models {
+            if let modelsDict = response.data?.vcAnyFromJSON() as? [[String:Any]] {
                 text = ""
                 
-                for model in models {
-                    let demoModel: DemoModel = model as! DemoModel
-                    
-                    text = text + "\n\n Title: " + demoModel.title! + "\nBody: " + demoModel.body!
+                for modelDict in modelsDict {
+                    if let demoModel = DemoModel(JSON: modelDict) {
+                        text = text + "\n\n Title: " + demoModel.title! + "\nBody: " + demoModel.body!
+                    }
                 }
             }
             self.responseDataTextView.text = text
             self.updateInterface(loading: false)
-        })
+        }
     }
     
     func startPOSTRequest() {
         let demoModel = DemoModel(JSON: [:])
         
-        demoModel?.create(completionHandler: {success, response in
+        self.connector.parameters = demoModel!.toJSON()
+        connector.post(path: "") { (success, response) in
             self.statusLabel.text = String(format: "%d", response.statusCode!)
             
             self.responseDataTextView.text = "Nothing to show here..."
@@ -73,6 +75,6 @@ class ViewController: UIViewController {
             self.responseDataTextView.text = (response.data?.vcAnyFromJSON() as? [String:Any])?.description
             
             self.updateInterface(loading: false)
-        })
+        }
     }
 }

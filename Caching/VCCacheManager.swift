@@ -23,7 +23,13 @@ open class VCCacheManager {
         case imagePNG = "ImagePNG"
     }
     
-    init() {
+    private var folderPath: String {
+        get {
+            return "VCCachedContent"
+        }
+    }
+    
+    public init() {
         self.prepareCacheStructure()
     }
     
@@ -37,7 +43,7 @@ open class VCCacheManager {
                                                    fileName: key,
                                                    fileExtension: self.fileExtension(type: type),
                                                    directory: .library,
-                                                   customFolder: self.cacheFolderName(type: type),
+                                                   customFolder: self.folderPath(type: type),
                                                    replaceExisting: true)
                 }
             case .dictionary:
@@ -46,7 +52,7 @@ open class VCCacheManager {
                                                          fileName: key,
                                                          fileExtension: self.fileExtension(type: type),
                                                          directory: .library,
-                                                         customFolder: self.cacheFolderName(type: type),
+                                                         customFolder: self.folderPath(type: type),
                                                          replaceExisting: true)
                 }
             case .array:
@@ -55,7 +61,7 @@ open class VCCacheManager {
                                                     fileName: key,
                                                     fileExtension: self.fileExtension(type: type),
                                                     directory: .library,
-                                                    customFolder: self.cacheFolderName(type: type),
+                                                    customFolder: self.folderPath(type: type),
                                                     replaceExisting: true)
                 }
             case .string:
@@ -64,7 +70,7 @@ open class VCCacheManager {
                                                      fileName: key,
                                                      fileExtension: self.fileExtension(type: type),
                                                      directory: .library,
-                                                     customFolder: self.cacheFolderName(type: type),
+                                                     customFolder: self.folderPath(type: type),
                                                      replaceExisting: true)
                 }
             case .imageJPG, .imagePNG:
@@ -75,7 +81,7 @@ open class VCCacheManager {
                                                         fileName: key,
                                                         fileExtension: self.fileExtension(type: type),
                                                         directory: .library,
-                                                        customFolder: self.cacheFolderName(type: type),
+                                                        customFolder: self.folderPath(type: type),
                                                         replaceExisting: true)
                     }
                     else if type == .imagePNG {
@@ -84,7 +90,7 @@ open class VCCacheManager {
                                                         fileName: key,
                                                         fileExtension: self.fileExtension(type: type),
                                                         directory: .library,
-                                                        customFolder: self.cacheFolderName(type: type),
+                                                        customFolder: self.folderPath(type: type),
                                                         replaceExisting: true)
                     }
                 }
@@ -102,56 +108,51 @@ open class VCCacheManager {
             return VCFileManager.readJSON(fileName: key,
                                           fileExtension: self.fileExtension(type: type),
                                           directory: .library,
-                                          customFolder: self.cacheFolderName(type: type)) as Any
+                                          customFolder: self.folderPath(type: type)) as Any
         case .dictionary:
             return VCFileManager.readDictionary(fileName: key,
                                                 fileExtension: self.fileExtension(type: type),
                                                 directory: .library,
-                                                customFolder: self.cacheFolderName(type: type)) as Any
+                                                customFolder: self.folderPath(type: type)) as Any
         case .array:
             return VCFileManager.readArray(fileName: key,
                                            fileExtension: self.fileExtension(type: type),
                                            directory: .library,
-                                           customFolder: self.cacheFolderName(type: type)) as Any
+                                           customFolder: self.folderPath(type: type)) as Any
         case .string:
             return VCFileManager.readString(fileName: key,
                                             fileExtension: self.fileExtension(type: type),
                                             directory: .library,
-                                            customFolder: self.cacheFolderName(type: type)) as Any
+                                            customFolder: self.folderPath(type: type)) as Any
         case .imagePNG, .imageJPG:
             return VCFileManager.readImage(fileName: key,
                                            fileExtension: self.fileExtension(type: type),
                                            directory: .library,
-                                           customFolder: self.cacheFolderName(type: type)) as Any
+                                           customFolder: self.folderPath(type: type)) as Any
         }
     }
     
-    // MARK: - Internal
     
     private func prepareCacheStructure() -> Void {
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.cacheFolderName())
+                                                  folderName: self.folderPath)
         
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.cacheFolderName(type: .json))
+                                                  folderName: self.folderPath(type: .json))
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.cacheFolderName(type: .dictionary))
+                                                  folderName: self.folderPath(type: .dictionary))
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.cacheFolderName(type: .array))
+                                                  folderName: self.folderPath(type: .array))
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.cacheFolderName(type: .string))
+                                                  folderName: self.folderPath(type: .string))
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.cacheFolderName(type: .imageJPG))
+                                                  folderName: self.folderPath(type: .imageJPG))
         _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.cacheFolderName(type: .imagePNG))
+                                                  folderName: self.folderPath(type: .imagePNG))
     }
     
-    private func cacheFolderName() -> String {
-        return "VCCachedContent"
-    }
-    
-    private func cacheFolderName(type: CacheType) -> String {
-        return self.cacheFolderName() + "/" + type.rawValue
+    private func folderPath(type: CacheType) -> String {
+        return self.folderPath + "/" + type.rawValue
     }
     
     private func fileExtension(type: CacheType) -> String {

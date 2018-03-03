@@ -11,17 +11,15 @@ import VCSwiftToolkit
 import ObjectMapper
 
 open class VCDatabase {
-    private let databaseFolderName: String = "VCDatabase"
-    
+    /** The name of this Database. Must be unique. */
     open var name: String
+
     internal var models: [VCEntityModel] = []
     
     public init(name: String) {
         self.name = name
         
         self.reset()
-        
-        self.prepareStructure()
     }
     
     /** Sub class this to initialize the desired VCEntityModel. */
@@ -128,35 +126,24 @@ open class VCDatabase {
             entities.append(model.toJSONString()!)
         })
         
-        return VCFileManager.writeArray(array: entities as NSArray,
-                                        fileName: self.name,
-                                        fileExtension: "plist",
-                                        directory: .library,
-                                        customFolder: self.databaseFolderName,
-                                        replaceExisting: true)
+        return sharedCacheManager.cache(type: .array,
+                                        content: entities as NSArray,
+                                        key: self.name)
     }
     
     /** Loads all the entities + metadata from a Table */
     internal func load() -> [VCEntityModel] {
-        let entities: [String] = VCFileManager.readArray(fileName: self.name,
-                                                         fileExtension: "plist",
-                                                         directory: .library,
-                                                         customFolder: self.databaseFolderName) as? [String] ?? []
+        let entities: [String] = sharedCacheManager.retrieve(type: .array, key: self.name) as? [String] ?? []
         
         // Converts entities to models
         var models: [VCEntityModel] = []
         entities.forEach({entity in
             if let model = self.modelInit(entity: entity) {
                 models.append(model)
+            } else {
+                print("Entity failed initialization")
             }
         })
         return models
-    }
-    
-    // MARK: - Fileprivate
-    
-    fileprivate func prepareStructure() -> Void {
-        _ = VCFileManager.createFolderInDirectory(directory: .library,
-                                                  folderName: self.databaseFolderName)
     }
 }
